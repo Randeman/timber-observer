@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
-import { OSM } from 'ol/source';
-import TileLayer from 'ol/layer/Tile';
+import { fromLonLat } from 'ol/proj';
+import * as olSource from "ol/source";
+import OLTileLayer from "ol/layer/Tile";
+
+const center: number[] = fromLonLat([25.33, 42.90]);
+const zoom: number = 7;
 
 @Component({
   selector: 'app-map',
@@ -12,20 +16,33 @@ import TileLayer from 'ol/layer/Tile';
 })
 export class MapComponent implements OnInit {
 
-  public map!: Map
+  
+  map!: Map;
+
+
   ngOnInit(): void {
-    this.map = new Map({
+    
+      this.map = new Map({
       layers: [
-        new TileLayer({
-          source: new OSM(),
+        new OLTileLayer({
+          source: this.osm(),
         }),
       ],
       target: 'map',
-      view: new View({
-        center: [0, 0],
-        zoom: 2, maxZoom: 18,
+      view: new View({ 
+        center,
+        zoom, 
       }),
     });
+   
+    
+
+  }
+
+  osm() {
+    return new olSource.XYZ({
+          url: "http://mt0.google.com/vt/lyrs=y&hl=bg&x={x}&y={y}&z={z}",
+        });
   }
 
 }

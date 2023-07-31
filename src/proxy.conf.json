@@ -1,0 +1,9 @@
+{
+  "/api-iag/*": {
+    "target": "https://api.iag.bg/cgi-bin/e_tickets",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": { "^/api-iag": "" }
+  }
+ }
