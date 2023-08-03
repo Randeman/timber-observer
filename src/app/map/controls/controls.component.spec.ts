@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TileLayerComponent } from './tile-layer.component';
+import { ControlsComponent } from './controls.component';
 
-describe('TileLayerComponent', () => {
-  let component: TileLayerComponent;
-  let fixture: ComponentFixture<TileLayerComponent>;
+describe('ControlsComponent', () => {
+  let component: ControlsComponent;
+  let fixture: ComponentFixture<ControlsComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TileLayerComponent]
+      declarations: [ControlsComponent]
     });
-    fixture = TestBed.createComponent(TileLayerComponent);
+    fixture = TestBed.createComponent(ControlsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

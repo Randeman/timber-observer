@@ -1,0 +1,78 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">Билет № {{data.time}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="passBack()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngIf="!!data.images_count" class="img-field">
+    <a *ngFor="let img of data.images" href="{{img.image}}" target="_blank" rel="noopener noreferrer">
+      <img src={{img.image}} alt="picture">
+    </a>
+  </div>
+  <div class="cubage">
+    <table>
+      <thead>
+        <tr>
+          <th>Дървесен вид/Категория/Сортимент</th>
+          <th>Дължина, метри</th>
+          <th>Обем, плътни куб. м</th>
+          <th *ngIf="data.space_cubage !== '0.00'">Обем, простанствени куб. м</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of data.records">
+          <td>{{record.wood_specie}}/{{record.category}}/{{record.assortiment}}</td>
+          <td>{{record.length}}</td>
+          <td>{{record.cubage}}</td>
+          <td *ngIf="data.space_cubage !== '0.00'">{{record.space_cubage}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>ОБЩО</td>
+          <td>X</td>
+          <td>{{data.cubage}}</td>
+          <td *ngIf="data.space_cubage !== '0.00'">{{data.space_cubage}}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="information">
+    <table>
+      <tbody>
+        <tr>
+          <td>Издател</td>
+          <td *ngIf="data.issued_pod !== data.podelenie">{{data.issued}}, {{data.issued_pod}}</td>
+          <td *ngIf="data.issued_pod === data.podelenie">{{data.podelenie}}</td>
+        </tr>
+        <tr>
+          <td>Основание</td>
+          <td *ngIf="!!data.document_date">{{data.document_type}} {{data.document_id}}/{{data.document_date}}</td>
+          <td *ngIf="!data.document_date">{{data.document_type}} {{data.document_id}}</td>
+        </tr>
+        <tr>
+          <td>Добита в</td>
+          <td *ngIf="!!data.imot && !data.otdel">Имот № {{data.imot}}, Извън горски територии</td>
+          <td *ngIf="!!data.imot && !!data.otdel">Имот № {{data.imot}}, Отдел {{data.otdel}}, подотдел "{{data.bukva}}", {{data.harvested_from}}</td>
+          <td *ngIf="!data.imot && !!data.otdel">Отдел {{data.otdel}}, Подотдел "{{data.bukva}}", {{data.harvested_from}}</td>
+          <td *ngIf="!data.imot && !data.otdel">Извън горски територии</td>
+        </tr>
+        <tr>
+          <td>№ на превозно средство</td>
+          <td *ngIf="!!data.trailer_plates_number">{{data.vehicle_plates_number}}, ремарке {{data.trailer_plates_number}}</td>
+          <td *ngIf="!data.trailer_plates_number">{{data.vehicle_plates_number}}</td>
+        </tr>
+        <tr>
+          <td>Пътува до</td>
+          <td >{{data.recipient | uppercase}}, {{data.destination}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <p>{{data | json}}</p> -->
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="passBack()">Close</button>
+</div>

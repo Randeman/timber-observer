@@ -7,6 +7,8 @@ import { MapModule } from './map/map.module';
 import { ObserverComponent } from './observer/observer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,7 @@ import { SharedModule } from './shared/shared.module';
     MapModule,
     SharedModule
   ],
-  providers: [],
+  providers: [NgbActiveModal],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
