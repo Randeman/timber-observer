@@ -93,7 +93,7 @@
   font-weight: bold;
   background-color: #4F7849;
   color: #FFFFFF;
-  border-bottom: 2px solid #FFFFFF;
+
 }
 
 .information table tbody > tr:last-child > td:first-child {
@@ -103,3 +103,6 @@
 .information table tr:nth-child(even) > td:last-child {
   background: #CEE0CC;
 }
+
+
+
