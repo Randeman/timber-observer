@@ -1,16 +1,45 @@
-<app-map [viewVector]="viewVector" (coordinates)="setCoordinates($event)" [setInteractions]="setInteractions"></app-map>
+<app-map [viewVector]="viewVector" (coordinates)="setCoordinates($event)" [setInteractions]="setInteractions"
+    [removeInteractions]="removeInteractions">
+</app-map>
 <form class="login" #form="ngForm" (ngSubmit)="onReport(form)">
+    <div class="names">
+        <div class="firstName">
+            <label for="firstName">Име</label>
+            <input type="text" name="firstName" id="firstName" ngModel #inputFirstName="ngModel" required>
+        </div>
+        <div class="lastName">
+            <label for="lastName">Фамилия</label>
+            <input type="text" name="lastName" id="lastName" ngModel #inputLastName="ngModel" required>
+        </div>
+    </div>
+    <div class="contacts">
+        <div class="email">
+            <label for="email">Електронна поща</label>
+            <input type="email" name="email" id="email" ngModel #inputEmail="ngModel" required>
+        </div>
+        <div class="phone">
+            <label for="phone">Tелефон</label>
+            <input type="text" name="phone" id="phone" ngModel #inputPhone="ngModel" required>
+        </div>
+    </div>
+    <div class="coordinates">
+        <label for="coordinates"><i class="fa-solid fa-location-crosshairs"></i>Координати</label>
+        <input type="text" name="coordinates" id="coordinates" [ngModel]="coordinates" #inputCoordinates="ngModel" required readonly>
+        <button type="button" [style]="{ backgroundColor: interactionMode ? 'grey' : 'brown' }"
+            [disabled]="interactionMode" (click)="onSetInteractions()">
+            Посочи на картата
+        </button>
+        <button type="button" [style]="{ backgroundColor: !interactionMode ? 'grey' : 'brown' }"
+            [disabled]="!interactionMode" (click)="onDeleteInteractions()">
+            Изтрий
+        </button>
+    </div>
+    <div class="description">
+        <label for="phone">Описание</label>
+        <textarea name="description" id="description" cols="40" rows="7" ngModel #textDescription="ngModel" required>Описание</textarea>
+    </div>
 
-    <h2>Form</h2>
-    <button type="button" [style]="{ backgroundColor: interactionMode ? 'grey' : '#4ebced' }"
-        [disabled]="interactionMode" (click)="onClick()">
-        Interactions
+    <button [style]="{ backgroundColor: form.invalid ? 'grey' : 'green' }" [disabled]="form.invalid">
+        Изпрати
     </button>
-
-    <p>
-        <label for="coordinates"><span><i class="fas fa-envelope"></i></span></label>
-        <input type="text" name="coordinates" id="coordinates" [ngModel]="coordinates" readonly>
-    </p>
-
-    <button [style]="{ backgroundColor: form.invalid ? 'grey' : '#4ebced' }" [disabled]="form.invalid">Report</button>
 </form>

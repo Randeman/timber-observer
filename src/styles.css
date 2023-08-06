@@ -1,13 +1,79 @@
 @import '/src/assets/css/_openlayers.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import 'https://use.fontawesome.com/releases/v6.4.0/css/all.css';
+
+* {
+    font: inherit;
+    box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font: 11px/1.2 "Roboto", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font: 11px/1.2 "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 1.8em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.3em;
+}
+
+h4 {
+    font-size: 1.2em;
+}
+
+h5 {
+    font-size: 1.1em;
+}
+
+h6 {
+    font-size: 1em;
+}
+
+body {
+    display: flex;
+    width: 100vw;
+    max-width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em 2em;
+    background:rgb(228, 250, 228);
+    background-repeat: no-repeat;
+
+}
+
+
+body > * {
+    width: 100%;
+}
 
 .modal {
     --bs-modal-width: 70vw;
 }
-
-.ol-rotate-reset {
-  display: none;
-}
-
 
 
 .ins table[class*="success-results"] {

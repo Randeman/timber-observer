@@ -52,9 +52,13 @@ const style = new Style({
 export class MapComponent implements OnInit {
 
   map!: Map;
+  draw!: Draw;
+  modify!: Modify;
+  snap!: Snap;
   @Input() viewVector!: boolean;
   @Output() coordinates = new EventEmitter<string>;
   @Input('setInteractions') setInteractions!: EventEmitter<null>;
+  @Input('removeInteractions') removeInteractions!: EventEmitter<null>;
 
   setCoordinates(value: string) {
     this.coordinates.emit(value)
@@ -97,8 +101,11 @@ export class MapComponent implements OnInit {
     });
 
     this.setInteractions.subscribe(e => {
-
       this.addInteractions();
+    });
+
+    this.removeInteractions.subscribe(e => {
+      this.deleteInteractions();
     });
 
   }
@@ -113,20 +120,20 @@ export class MapComponent implements OnInit {
   addInteractions() {
 
     if (!this.map) return;
-    let modify = new Modify({ source: source });
-    this.map.addInteraction(modify);
+    this.modify = new Modify({ source: source });
+    this.map.addInteraction(this.modify);
 
-    let draw = new Draw({
+    this.draw = new Draw({
       source: source,
       type: "Point",
     });
-    this.map.addInteraction(draw);
+    this.map.addInteraction(this.draw);
 
-    let snap = new Snap({ source: source });
-    this.map.addInteraction(snap);
+    this.snap = new Snap({ source: source });
+    this.map.addInteraction(this.snap);
 
 
-    draw.once('drawend', (e: any) => {
+    this.draw.once('drawend', (e: any) => {
       const drawFeature = e.feature;
 
       let coordinates;
@@ -148,13 +155,13 @@ export class MapComponent implements OnInit {
 
       vectorLayer.setMap(this.map);
 
-      this.map.removeInteraction(draw);
-      this.map.removeInteraction(snap);
+      this.map.removeInteraction(this.draw);
+      this.map.removeInteraction(this.snap);
 
       this.setCoordinates(coordinates.reverse().join(", "));
     });
 
-    modify.on('modifyend', (e: any) => {
+    this.modify.on('modifyend', (e: any) => {
 
       const modifyFeature = e.features.getArray()[0];
 
@@ -180,6 +187,19 @@ export class MapComponent implements OnInit {
       this.setCoordinates(coordinates.reverse().join(", "));
     })
   }
+
+  deleteInteractions() {
+    
+    this.map.removeInteraction(this.modify);
+    this.map.removeInteraction(this.draw);
+    this.map.removeInteraction(this.snap);
+
+    vectorLayer.setMap(null);
+    vectorLayer.getSource()?.clear();
+
+    this.setCoordinates("");
+
+}
 
 
 }

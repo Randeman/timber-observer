@@ -1,7 +1,6 @@
 import { Component, EventEmitter} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 
 import { ApiService } from 'src/app/api.service';
 
@@ -17,13 +16,19 @@ export class ReportComponent {
   coordinates: string = "";
   interactionMode: boolean = false;
   setInteractions = new EventEmitter<null>;
+  removeInteractions = new EventEmitter<null>;
 
   setCoordinates(coordinates: string) {
     this.coordinates = coordinates;
   }
   
-  onClick() {
+  onSetInteractions() {
     this.setInteractions.emit(null);
+    this.interactionMode = !this.interactionMode;
+  }
+
+  onDeleteInteractions() {
+    this.removeInteractions.emit(null);
     this.interactionMode = !this.interactionMode;
   }
 
@@ -33,16 +38,14 @@ export class ReportComponent {
     private router: Router) { }
 
   onReport(form: NgForm): void {
-    //if (form.invalid) return;
+    if (form.invalid) return;
     // this.userService.login(form.value).subscribe({
     //   next: () => {
     //     this.router.navigate(['/']);
     //   }
-    //})
-    //console.log(form.value);
-    setTimeout(() => {
-      this.coordinates = "7777777";
-    }, 2000);
+    // })
+    console.log(form.value);
+   
 
   }
 
