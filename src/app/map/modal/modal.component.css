@@ -10,6 +10,7 @@
     max-height: 200px;
     overflow: auto;
     display: flex;
+    justify-content: center;
     gap: 5px;
 }
 
@@ -103,6 +104,4 @@
 .information table tr:nth-child(even) > td:last-child {
   background: #CEE0CC;
 }
-
-
 

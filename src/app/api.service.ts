@@ -1,7 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { first, map, mergeAll, mergeMap, reduce, take, tap, toArray } from 'rxjs/operators';
+import { map, mergeAll, mergeMap, take, toArray } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +44,8 @@ export class ApiService implements OnDestroy {
   }
 
   getInsurance(vehicleNumber: string) {
-    const body = { dkn: this.cyrlat(vehicleNumber), rama: "", stiker: "", seria: "", date: "04/08/2023", send: "търси" };
+    
+    const body = { dkn: this.cyrlat(vehicleNumber), rama: "", stiker: "", seria: "", date: moment().format("DD/MM/YYYY"), send: "търси" };
     return this.http.post(
       `api-ins`,
       new URLSearchParams(body),

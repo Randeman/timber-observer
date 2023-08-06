@@ -1,10 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
+import Map from 'ol/Map';
 import GeoJSON from "ol/format/GeoJSON";
 import OLVectorLayer from "ol/layer/Vector";
 import { get } from "ol/proj";
 import VectorSource from 'ol/source/Vector';
-import { Circle, Fill, Stroke, Style, Icon } from "ol/style";
+import { Style, Icon } from "ol/style";
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 
@@ -14,10 +15,10 @@ import { ApiService } from 'src/app/api.service';
   styleUrls: ['./vector-layer.component.css']
 })
 export class VectorLayerComponent implements OnInit, OnDestroy {
-  @Input() map: any;
+  @Input() map!: Map;
 
   sub!: Subscription;
-  @Output() isLoading = true;
+  isLoading: boolean = true;
   vectorLayer: any;
 
   constructor(private apiService: ApiService) { }
@@ -51,15 +52,7 @@ export class VectorLayerComponent implements OnInit, OnDestroy {
       complete: () => {this.isLoading = false}
     })
 
-    // this.vectorLayer = new OLVectorLayer({
-    //   source: new VectorSource({
-    //     features: this.feature(`{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[25.25,42.25]},"properties":null}]}`)
-    //   }),
-    //   style: this.featureStyles[JSON.parse(`{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[47.25,22.55]},"properties":null}]}`).features[0].geometry.type]
-    // });
-    // this.map.addLayer(this.vectorLayer);
-    // this.vectorLayer.setZIndex(0);
-    // this.isLoading = false
+ 
   }
 
   ngOnDestroy(): void {

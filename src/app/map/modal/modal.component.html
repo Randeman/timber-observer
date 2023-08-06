@@ -6,10 +6,15 @@
   </button>
 </div>
 <div class="modal-body">
-  <div *ngIf="!!data.images_count" class="img-field">
-    <a *ngFor="let img of data.images" href="{{img.image}}" target="_blank" rel="noopener noreferrer">
-      <img src={{img.image}} alt="picture">
-    </a>
+  <div class="img-field">
+    <ng-container *ngIf="!!data.images_count">
+      <a *ngFor="let img of data.images" href="{{img.image}}" target="_blank" rel="noopener noreferrer">
+        <img src={{img.image}} alt="picture">
+      </a>
+    </ng-container>
+    <ng-container *ngIf="!data.images_count">
+      <img src="../../../assets/images/no-image.jpg" alt="picture">
+    </ng-container>
   </div>
   <div class="cubage">
     <table>
@@ -43,9 +48,8 @@
     <table>
       <tbody>
         <tr>
-          <td>Издател</td>
-          <td *ngIf="data.issued_pod !== data.podelenie">{{data.issued}}, {{data.issued_pod}}</td>
-          <td *ngIf="data.issued_pod === data.podelenie">{{data.podelenie}}</td>
+          <td>Издаден от</td>
+          <td>{{data.issued | uppercase}}, {{data.issued_pod}}</td>
         </tr>
         <tr>
           <td>Основание</td>
@@ -57,7 +61,7 @@
           <td *ngIf="!!data.imot && !data.otdel">Имот № {{data.imot}}, Извън горски територии</td>
           <td *ngIf="!!data.imot && !!data.otdel">Имот № {{data.imot}}, Отдел {{data.otdel}}, подотдел "{{data.bukva}}", {{data.harvested_from}}</td>
           <td *ngIf="!data.imot && !!data.otdel">Отдел {{data.otdel}}, Подотдел "{{data.bukva}}", {{data.harvested_from}}</td>
-          <td *ngIf="!data.imot && !data.otdel">Извън горски територии</td>
+          <td *ngIf="!data.imot && !data.otdel">-</td>
         </tr>
         <tr>
           <td>№ на превозно средство</td>

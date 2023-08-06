@@ -1,0 +1,16 @@
+<app-map [viewVector]="viewVector" (coordinates)="setCoordinates($event)" [setInteractions]="setInteractions"></app-map>
+<form class="login" #form="ngForm" (ngSubmit)="onReport(form)">
+
+    <h2>Form</h2>
+    <button type="button" [style]="{ backgroundColor: interactionMode ? 'grey' : '#4ebced' }"
+        [disabled]="interactionMode" (click)="onClick()">
+        Interactions
+    </button>
+
+    <p>
+        <label for="coordinates"><span><i class="fas fa-envelope"></i></span></label>
+        <input type="text" name="coordinates" id="coordinates" [ngModel]="coordinates" readonly>
+    </p>
+
+    <button [style]="{ backgroundColor: form.invalid ? 'grey' : '#4ebced' }" [disabled]="form.invalid">Report</button>
+</form>

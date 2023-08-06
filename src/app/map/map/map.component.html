@@ -1,4 +1,4 @@
 <div id="map" class="ol-map">
- <app-vector-layer [map]="map"/>
- <app-controls [map]="map" />
-</div> 
+  <app-controls [map]="map" />
+  <app-vector-layer [map]="map" *ngIf="viewVector"></app-vector-layer>
+</div>

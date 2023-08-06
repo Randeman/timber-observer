@@ -5,7 +5,8 @@ import { VectorLayerComponent } from './layers/vector-layer/vector-layer.compone
 import { ControlsComponent } from './controls/controls.component';
 import { SharedModule } from '../shared/shared.module';
 import { ModalComponent } from './modal/modal.component';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SharedModule,
     NgbModule
   ],
-  exports: [MapComponent],
+  exports: [MapComponent, VectorLayerComponent],
   bootstrap: [ModalComponent]
 
 })

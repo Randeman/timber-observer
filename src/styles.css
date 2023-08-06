@@ -4,27 +4,37 @@
     --bs-modal-width: 70vw;
 }
 
-table[class*="success-results"] {
+.ol-rotate-reset {
+  display: none;
+}
+
+
+
+.ins table[class*="success-results"] {
   border: 2px solid #4F7849;
   background-color: #FFFFFF;
   width: 100%;
   text-align: center;
   border-collapse: collapse;
 }
-table[class*="success-results"] td, .success-results th {
+
+.ins table[class*="success-results"] td, .success-results th {
   border: 1px solid #4F7849;
   padding: 3px 3px;
 }
-table[class*="success-results"] tbody td {
+
+.ins table[class*="success-results"] tbody td {
   font-size: 11px;
   font-weight: bold;
   color: #4F7849;
 }
 
-table[class*="success-results"] th {
+.ins table[class*="success-results"] th {
   background: #4F7849;
   font-size: 12px;
   color: #FFFFFF;
   text-align: center;
 } 
+
+
 

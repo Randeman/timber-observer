@@ -1,19 +1,48 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { fromLonLat } from 'ol/proj';
 import * as olSource from "ol/source";
 import OLTileLayer from "ol/layer/Tile";
+import GeoJSON from "ol/format/GeoJSON";
+import OLVectorLayer from "ol/layer/Vector";
+import SimpleGeometry from 'ol/geom/SimpleGeometry';
+import { get } from "ol/proj";
+import VectorSource from 'ol/source/Vector';
+import { Style, Icon, Circle, Fill, Stroke } from "ol/style";
+import { Draw, Modify, Snap } from 'ol/interaction.js';
 
 import { ModalComponent } from '../modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { MAP_CONSTANTS } from './map-constants';
+import { MAP_CONSTANTS } from '../map-constants';
 
 const center: number[] = fromLonLat(MAP_CONSTANTS.center);
 const zoom: number = MAP_CONSTANTS.zoom;
 const tilelayerURL: string = MAP_CONSTANTS.tilelayerURL;
+
+const source = new VectorSource({
+  features: [],
+});
+
+const vectorLayer = new OLVectorLayer({
+  source: source
+});
+
+const style = new Style({
+  image: new Circle({
+    radius: 7,
+    fill: new Fill({
+      color: "red",
+    }),
+    stroke: new Stroke({
+      color: "red",
+    }),
+  }),
+});
+
+
 
 @Component({
   selector: 'app-map',
@@ -23,7 +52,13 @@ const tilelayerURL: string = MAP_CONSTANTS.tilelayerURL;
 export class MapComponent implements OnInit {
 
   map!: Map;
-  @ViewChild('modalRef') modalRef: any;
+  @Input() viewVector!: boolean;
+  @Output() coordinates = new EventEmitter<string>;
+  @Input('setInteractions') setInteractions!: EventEmitter<null>;
+
+  setCoordinates(value: string) {
+    this.coordinates.emit(value)
+  }
 
   constructor(public modalService: NgbModal) { }
 
@@ -44,6 +79,10 @@ export class MapComponent implements OnInit {
 
 
     this.map.on('click', (evt: any) => {
+
+      if (evt.map.interactions.array_.length > 9) {
+        return;
+      }
       const feature = this.map.forEachFeatureAtPixel(evt.pixel, function (feature: any) {
         return feature;
       });
@@ -57,7 +96,10 @@ export class MapComponent implements OnInit {
 
     });
 
+    this.setInteractions.subscribe(e => {
 
+      this.addInteractions();
+    });
 
   }
 
@@ -68,6 +110,76 @@ export class MapComponent implements OnInit {
     });
   }
 
+  addInteractions() {
+
+    if (!this.map) return;
+    let modify = new Modify({ source: source });
+    this.map.addInteraction(modify);
+
+    let draw = new Draw({
+      source: source,
+      type: "Point",
+    });
+    this.map.addInteraction(draw);
+
+    let snap = new Snap({ source: source });
+    this.map.addInteraction(snap);
+
+
+    draw.once('drawend', (e: any) => {
+      const drawFeature = e.feature;
+
+      let coordinates;
+      if (drawFeature.getGeometry() instanceof SimpleGeometry) {
+        coordinates = drawFeature
+          .getGeometry()
+          .clone()
+          .transform("EPSG:3857", "EPSG:4326")
+          .getCoordinates()
+
+      } else {
+        coordinates = [];
+      }
+
+      let figure = new GeoJSON()
+        .writeFeatures([drawFeature], { featureProjection: get("EPSG:3857") } as any);
+
+      drawFeature.setStyle(style);
+
+      vectorLayer.setMap(this.map);
+
+      this.map.removeInteraction(draw);
+      this.map.removeInteraction(snap);
+
+      this.setCoordinates(coordinates.reverse().join(", "));
+    });
+
+    modify.on('modifyend', (e: any) => {
+
+      const modifyFeature = e.features.getArray()[0];
+
+      let coordinates;
+      if (modifyFeature.getGeometry() instanceof SimpleGeometry) {
+        coordinates = modifyFeature
+          .getGeometry()
+          .clone()
+          .transform("EPSG:3857", "EPSG:4326")
+          .getCoordinates()
+
+      } else {
+        coordinates = [];
+      }
+
+      let figure = new GeoJSON()
+        .writeFeatures([modifyFeature], { featureProjection: get("EPSG:3857") } as any);
+
+      modifyFeature.setStyle(style);
+
+      vectorLayer.setMap(this.map);
+
+      this.setCoordinates(coordinates.reverse().join(", "));
+    })
+  }
 
 
 }
