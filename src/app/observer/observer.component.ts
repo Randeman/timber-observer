@@ -25,8 +25,6 @@ const featureStyles = {
 })
 export class ObserverComponent {
 
-  @Input() map: any;
-
-figure = [{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[26.23647483399741,43.33446779944785]},"properties":null}]}];
+  @Input() viewVector: boolean = true;
 
 }

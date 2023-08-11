@@ -1,0 +1,85 @@
+
+<form #form="ngForm" (ngSubmit)="onRegister(form)">
+    <div class="displayTableCell">
+      <div class="authBlock">
+        <h3>Register</h3>
+        <div class="formGroup">
+            <input type="text" 
+            name="firstName"
+            class="formControl" 
+            placeholder="First Name" 
+            ngModel 
+            #inputFirstName="ngModel"
+            required 
+            />
+        </div>
+        <div class="formGroup">
+            <input type="text" 
+            name="lastName"
+            class="formControl" 
+            placeholder="Last Name" 
+            ngModel 
+            #inputFirstName="ngModel"
+            required
+            />
+        </div>
+        <div class="formGroup">
+            <input type="text"
+            name="phone"
+            class="formControl" 
+            placeholder="+359 ......." 
+            ngModel 
+            #inputPhone="ngModel"
+            required 
+            />
+        </div>
+        <div class="formGroup">
+            <input type="email" 
+            name="email"
+            class="formControl" 
+            placeholder="Email" 
+            ngModel 
+            #inputEmail="ngModel" 
+            required />
+        </div>
+        <div class="formGroup">
+            <input type="password"
+            name="password" 
+            class="formControl" 
+            placeholder="Password" 
+            ngModel 
+            #inputPassword="ngModel"
+            required 
+            autocomplete="on"
+            minlength="6" />
+        </div>
+        <div class="formGroup">
+            <input type="password" 
+            name="rePassword"
+            class="formControl" 
+            placeholder="Repeat password" 
+            ngModel 
+            #inputRepassword="ngModel"
+            required 
+            autocomplete="on"
+            />
+        </div>
+        <div class="formGroup">
+          <input
+            type="submit"
+            class="btn btnPrimary"
+            value="Sign Up"
+          />
+        </div>
+        <div class="formGroup">
+          <span class="or"><span class="orInner">Or</span></span>
+        </div>
+      <div class="redirectToLogin">
+        <span
+          >Already have an account?
+          <span class="redirect" routerLink="/sign-in">Log In</span></span
+        >
+      </div>
+    </div>
+  </div>
+</form>

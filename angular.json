@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "timber-industry-observer": {
+    "timber-observer": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/timber-industry-observer",
+            "outputPath": "dist/timber-observer",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "timber-industry-observer:build:production"
+              "browserTarget": "timber-observer:build:production"
             },
             "development": {
-              "browserTarget": "timber-industry-observer:build:development"
+              "browserTarget": "timber-observer:build:development"
             }
           },
           "defaultConfiguration": "development",
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "timber-industry-observer:build"
+            "browserTarget": "timber-observer:build"
           }
         },
         "test": {

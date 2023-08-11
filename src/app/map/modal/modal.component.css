@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px
+    gap: 5px;
 }
 
 .img-field {
@@ -36,6 +36,8 @@
     background-color: #FFFFFF;
     width: 100%;
     text-align: center;
+    font-size: 9px;
+    font-weight: bold;
     border-collapse: collapse;
   }
   .cubage table td, table th {
@@ -43,8 +45,6 @@
     padding: 3px 3px;
   }
   .cubage table tbody td {
-    font-size: 11px;
-    font-weight: bold;
     color: #4F7849;
   }
   .cubage table tr:nth-child(even) {
@@ -54,19 +54,13 @@
     background: #4F7849;
   }
   .cubage table thead th {
-    font-size: 12px;
     color: #FFFFFF;
     text-align: center;
   }
   .cubage table tfoot {
-    font-size: 12px;
-    font-weight: bold;
     color: #FFFFFF;
     background: #4F7849;
     border-top: 1px solid #444444;
-  }
-  .cubage table tfoot td {
-    font-size: 12px;
   }
 
   .information {
@@ -74,24 +68,22 @@
 }
 
 .information table {
+  border: 2px solid #4F7849;
   width: 100%;
-  font-size: 12px;
+  font-size: 9px;
+  text-align: center;
   font-weight: bold;
 }
 
 .information table tbody tr > td{
-  border: 2px solid #4F7849;
+  border: 1px solid #4F7849;
   background-color: white;
   color: #4F7849;
-  text-align: center;
   border-collapse: collapse;
 }
 
-
 .information table tbody tr > td:first-child {
   width: 30%;
-  font-size: 11px;
-  font-weight: bold;
   background-color: #4F7849;
   color: #FFFFFF;
 
@@ -104,4 +96,14 @@
 .information table tr:nth-child(even) > td:last-child {
   background: #CEE0CC;
 }
+
+.modal-header > button {
+  padding: 3px;
+}
+
+.ins-container {
+  position: relative;
+  min-height: 10em;
+}
+
 

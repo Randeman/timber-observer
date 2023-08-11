@@ -75,7 +75,10 @@
       </tbody>
     </table>
   </div>
-  <div [innerHTML]="insurance" class="ins"></div>
+  <div class="ins-container">
+    <app-loader *ngIf="isLoading"></app-loader>
+    <div *ngIf="!isLoading" [innerHTML]="insurance" class="ins"></div>
+  </div>
   <!-- <p>{{data | json}}</p> -->
 </div>
 <div class="modal-footer">

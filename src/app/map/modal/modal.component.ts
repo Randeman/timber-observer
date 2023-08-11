@@ -14,7 +14,7 @@ export class ModalComponent implements OnInit {
   @Input() public data: any;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   insurance: any;
-
+  isLoading: boolean = true;
 
   constructor(public activeModal: NgbActiveModal,
    private apiService: ApiService) { }
@@ -24,6 +24,7 @@ export class ModalComponent implements OnInit {
     this.apiService.getInsurance(this.data.vehicle_plates_number)
       .subscribe(data => {
         this.insurance = this.insuranceCheck(data);
+        this.isLoading = false;
       })
 
   }

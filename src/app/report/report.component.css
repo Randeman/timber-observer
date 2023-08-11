@@ -11,6 +11,7 @@ form {
     gap: 1em;
     height: 220px;
     box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.5);
+    background-color: rgba(210, 105, 30, 0.7);
 }
 
 form button {
@@ -22,7 +23,8 @@ form button {
 }
 
 form input,
-form textarea {
+form textarea,
+form select {
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.5);
     width: 100%;
@@ -41,7 +43,7 @@ form label{
 
 .names {
     display: flex;
-    width: 55%;
+    width: 60%;
     gap: 10px;
 }
 
@@ -52,7 +54,7 @@ form label{
 
 .contacts {
     display: flex;
-    width: 55%;
+    width: 60%;
     gap: 10px;
     
 }
@@ -60,11 +62,17 @@ form label{
     width: 50%;
 }
 
+.content {
+    display: flex;
+    width: 60%;
+    gap: 10px;
+}
+
 
 .coordinates {
     display: flex;
     flex-wrap: wrap;
-    width: 55%;
+    width: 60%;
 }
 
 .coordinates label, 
@@ -77,8 +85,14 @@ form label{
     margin-right: 5px;
 }
 
-.description {
+.reason {
    width: 40%;
+   flex-grow: 1;
+}
+
+
+.description {
+   width: 30%;
    height: fit-content;
    flex-grow: 1;
 }

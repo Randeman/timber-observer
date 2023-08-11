@@ -1,0 +1,26 @@
+<form #form="ngForm" (ngSubmit)="onLogin(form)">
+
+    <div class="displayTable">
+        <div class="displayTableCell">
+            <div class="authBlock">
+                <h3>Login</h3>
+                <div class="formGroup">
+                    <input type="email" name="email" class="formControl" placeholder="Email" ngModel #inputEmail="ngModel"
+                        required />
+                </div>
+                <div class="formGroup">
+                    <input type="password" name="password" class="formControl" placeholder="Password" ngModel #inputPassword="ngModel"
+                    autocomplete="on"  required />
+                </div>
+                <!-- Calling SignIn Api from AuthService -->
+                <div class="formGroup">
+                    <input type="submit" class="btn btnPrimary" value="Log in" />
+                </div>
+            </div>
+            <div class="redirectToLogin">
+                <span>Don't have an account?<span class="redirect" routerLink="/auth/register">
+                        Sign Up</span></span>
+            </div>
+        </div>
+    </div>
+</form>

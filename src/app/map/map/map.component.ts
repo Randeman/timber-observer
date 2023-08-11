@@ -189,7 +189,7 @@ export class MapComponent implements OnInit {
   }
 
   deleteInteractions() {
-    
+
     this.map.removeInteraction(this.modify);
     this.map.removeInteraction(this.draw);
     this.map.removeInteraction(this.snap);
@@ -199,7 +199,7 @@ export class MapComponent implements OnInit {
 
     this.setCoordinates("");
 
-}
+  }
 
 
 }
