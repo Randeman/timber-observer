@@ -1,4 +1,4 @@
-import { Component, EventEmitter} from '@angular/core';
+import { Component, ElementRef, EventEmitter, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -21,7 +21,7 @@ export class ReportComponent {
   setCoordinates(coordinates: string) {
     this.coordinates = coordinates;
   }
-  
+
   onSetInteractions() {
     this.setInteractions.emit(null);
     this.interactionMode = !this.interactionMode;
@@ -45,11 +45,35 @@ export class ReportComponent {
     //   }
     // })
     console.log(form.value);
-   
+
 
   }
 
-  
+  urls: Array<string> = [];
+  files: Array<Blob> = [];
+
+  detectFiles(event) {
+    const files = event.target.files;
+    if (files) {
+      for (let file of files) {
+        let reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.urls.push(e.target.result);
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  deleteImage(url: any, index): void {
+    this.urls = this.urls.filter((x, i) => x !== url || i !== index);
+    this.files = this.files.filter((x, i) => i !== index);
+
+  }
+
+
 
 
 }
+
+
