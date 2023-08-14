@@ -5,6 +5,9 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from './User';
+import { environment } from "../../environments/environment"
+
+const databaseURL = environment.firebase.databaseURL;
 
 @Injectable({
   providedIn: 'root'
@@ -63,9 +66,9 @@ export class AuthService {
       });
   }
 
-  // Returns true when user is looged in and email is verified
+  // Returns true when user is looged in
   get isLoggedIn(): boolean {
-    const user = JSON.parse(sessionStorage.getItem('user')!);
+    const user = JSON.parse(sessionStorage.getItem('user'));
     return user !== null ? true : false;
   }
   /* Setting up user data when login */
@@ -92,7 +95,7 @@ export class AuthService {
 
   storeUserData(user: IUser, firstName, lastName, phone) {
     this.http.put<IUser>(
-    `https://elemental-shine-380103-default-rtdb.europe-west1.firebasedatabase.app/users/${user.uid}.json`,
+    `${databaseURL}/users/${user.uid}.json`,
     { id: user.uid, email: user.email, firstName, lastName, phone }).subscribe();
   }
 }

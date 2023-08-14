@@ -7,9 +7,8 @@ form {
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     gap: 1em;
-    height: 320px;
     box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.5);
     background-color: rgba(210, 105, 30, 0.7);
 }
@@ -32,40 +31,31 @@ form select {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
 }
 
-
-
-form label:not(#images-input-label){
-    display: block;
-    margin-left: 10px;
-    margin-bottom: 2px;
+.form-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+    
+.form-header h2 {
     font-weight: bold;
+    padding: 4px 8px;
 }
 
-.names {
-    display: flex;
-    width: 60%;
-    gap: 10px;
-}
-
-.names > * {
-    width: 50%;
-    
-}
-
-.contacts {
-    display: flex;
-    width: 60%;
-    gap: 10px;
-    
-}
-.contacts > * {
-    width: 50%;
+.form-header button {
+    padding: 5px 15px;
+    border-radius: 10px;
+    border: 1px solid white;
 }
 
 .images {
-    width: 60%;
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    border-radius: 10px;
+    border: 1px dotted rgba(0, 0, 0, 0.5);
+    padding: 1em;
+    gap: 1em;
 }
 
 .img-container {
@@ -101,7 +91,7 @@ form label:not(#images-input-label){
     right: 0;
 }
 
-#images {
+#img-input {
     display: none;
 }
 
@@ -113,12 +103,13 @@ form label:not(#images-input-label){
     border-radius: 10px;
     border: none;
     background-color: brown;
+    cursor: pointer;
   }
 
 
 .content {
     display: flex;
-    width: 60%;
+    width: 100%;
     gap: 10px;
 }
 
@@ -126,10 +117,11 @@ form label:not(#images-input-label){
 .coordinates {
     display: flex;
     flex-wrap: wrap;
-    width: 60%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1 1 40%;
 }
 
-.coordinates label, 
 .coordinates input {
     width: 100%;
 }
@@ -137,20 +129,29 @@ form label:not(#images-input-label){
 .coordinates button {
     margin-top: 5px;
     margin-right: 5px;
+    
+}
+
+.place {
+   width: 100%;
+   display: flex;
+   gap: 0.5em;
+}
+
+.place > * {
+    flex: 1 1 30%;
 }
 
 .reason {
-   width: 40%;
-   flex-grow: 1;
+   flex: 1 1 20%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   gap: 0.5em;
 }
 
 
 .description {
-   width: 30%;
    height: fit-content;
    flex-grow: 1;
-}
-
-form > button:last-child {
-    margin: 5px auto;
 }

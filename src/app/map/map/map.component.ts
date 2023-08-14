@@ -13,10 +13,11 @@ import VectorSource from 'ol/source/Vector';
 import { Style, Icon, Circle, Fill, Stroke } from "ol/style";
 import { Draw, Modify, Snap } from 'ol/interaction.js';
 
-import { ModalComponent } from '../modal/modal.component';
+import { TicketModalComponent } from './modals/ticket-modal/ticket-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { MAP_CONSTANTS } from '../map-constants';
+import { ReportModalComponent } from './report-modal/report-modal.component';
 
 const center: number[] = fromLonLat(MAP_CONSTANTS.center);
 const zoom: number = MAP_CONSTANTS.zoom;
@@ -95,16 +96,24 @@ export class MapComponent implements OnInit {
         return;
       }
 
-      const open = this.modalService.open(ModalComponent);
-      open.componentInstance.data = feature.getProperties();
+      const featureProperties = feature.getProperties();
+      let open;
+      if(!!featureProperties.id){
+         open = this.modalService.open(TicketModalComponent);
+        }
+        else {
+        open = this.modalService.open(ReportModalComponent);
+      }
+
+      open.componentInstance.data = featureProperties;
 
     });
 
-    this.setInteractions.subscribe(e => {
+    this.setInteractions?.subscribe(e => {
       this.addInteractions();
     });
 
-    this.removeInteractions.subscribe(e => {
+    this.removeInteractions?.subscribe(e => {
       this.deleteInteractions();
     });
 

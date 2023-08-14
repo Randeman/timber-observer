@@ -1,8 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 import { HttpClient } from '@angular/common/http';
-import { map, mergeAll, mergeMap, take, toArray } from 'rxjs/operators';
+import { map, mergeAll, mergeMap, take, toArray, delay } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { environment } from "../environments/environment"
+
+const databaseURL = environment.firebase.databaseURL;
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +15,8 @@ export class ApiService implements OnDestroy {
 
   sub!: Subscription;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private db: AngularFireDatabase,) { }
 
 
   private getTickets(): any {
@@ -38,8 +43,8 @@ export class ApiService implements OnDestroy {
 
   storeTickets(id: string, data: any) {
     this.sub = this.http.put(
-      `https://elemental-shine-380103-default-rtdb.europe-west1.firebasedatabase.app/e_tickets/${id}.json`,
-      { ...data }).subscribe()
+      `${databaseURL}/e_tickets/${id}.json`,
+      { ...data }).subscribe();
 
   }
 
@@ -51,6 +56,29 @@ export class ApiService implements OnDestroy {
       new URLSearchParams(body),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" }, responseType: 'text' })
   }
+
+  getPlace(coordinates: string) {
+   
+    const [lat, lng] = coordinates.split(", ");
+ 
+    return this.http.get(`api-geo?lat=${lat}&lng=${lng}&maxRows=1&username=rutor`)
+                
+  }
+
+  storeReports(reportData) {
+    
+    this.sub = this.http.post(
+        `${databaseURL}/reports/.json`,
+        { ...reportData }).subscribe();
+
+  }
+
+
+  getReports() {
+    return this.http.get(
+      `${databaseURL}/reports/.json`);
+  }
+
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();

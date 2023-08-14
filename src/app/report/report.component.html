@@ -2,47 +2,46 @@
     [removeInteractions]="removeInteractions">
 </app-map>
 <form #form="ngForm" (ngSubmit)="onReport(form)">
-    <!-- <div class="names">
-        <div class="firstName">
-            <label for="firstName">Име</label>
-            <input type="text" name="firstName" id="firstName" ngModel #inputFirstName="ngModel" required>
-        </div>
-        <div class="lastName">
-            <label for="lastName">Фамилия</label>
-            <input type="text" name="lastName" id="lastName" ngModel #inputLastName="ngModel" required>
-        </div>
+    <div class="form-header">
+        <h2>Подай сигнал за нарушение в горите</h2>
+        <button [style]="{ backgroundColor: form.invalid ? 'grey' : 'green' }" [disabled]="form.invalid">
+            ИЗПРАТИ
+        </button>
     </div>
-    <div class="contacts">
-        <div class="email">
-            <label for="email">Електронна поща</label>
-            <input type="email" name="email" id="email" ngModel #inputEmail="ngModel" required>
-        </div>
-        <div class="phone">
-            <label for="phone">Tелефон</label>
-            <input type="text" name="phone" id="phone" ngModel #inputPhone="ngModel" required>
-        </div>
-    </div> -->
     <div class="images">
+        <div class="input-field">
+            <label id="images-input-label" for="img-input">
+               Приложи снимки (опция)
+            </label>
+            <input type="file" id="img-input" #inputImages multiple="multiple"
+                accept="image/jpeg, image/png, image/jpg"  autocomplete="off"
+                (change)="detectFiles($event)" />
+        </div>
         <div class="img-container" *ngIf="!!urls">
             <div class="img-card" *ngFor="let url of urls; let index = index;">
                 <img [src]="url">
                 <span class="img-delete" (click)="deleteImage(url, index)"><i class="fa-solid fa-xmark"></i></span>
             </div>
         </div>
-        <div class="input-field">
-            <label id="images-input-label" for="images">
-                Избери снимка
-            </label>
-            <input type="file" id="images" ngModel #inputImages multiple="multiple"
-                accept="image/jpeg, image/png, image/jpg" name="images" autocomplete="off"
-                (change)="detectFiles($event)" />
-        </div>
     </div>
     <div class="content">
         <div class="coordinates">
-            <label for="coordinates"><i class="fa-solid fa-location-crosshairs"></i>Координати</label>
             <input type="text" name="coordinates" id="coordinates" [ngModel]="coordinates" #inputCoordinates="ngModel"
-                required readonly>
+                required readonly placeholder="Място на нарушението (координати)">
+                <div class="place">
+                    <div class="district">
+                        <input type="text" name="district" id="district" [ngModel]="district" #inputDistrict="ngModel" 
+                        required placeholder="Област" >
+                    </div>
+                    <div class="municipality">
+                        <input type="text" name="municipality" id="municipality" [ngModel]="municipality" #inputMunicipality="ngModel" 
+                        required placeholder="Община" >
+                    </div>
+                    <div class="land">
+                        <input type="text" name="land" id="land" [ngModel]="land" #inputLand="ngModel" 
+                        required placeholder="Землище" >
+                    </div>
+                </div>
             <button type="button" [style]="{ backgroundColor: interactionMode ? 'grey' : 'brown' }"
                 [disabled]="interactionMode" (click)="onSetInteractions()">
                 Посочи на картата
@@ -53,23 +52,17 @@
             </button>
         </div>
         <div class="reason">
-            <label for="reason-select">Основание</label>
-            <select name="reason-select" id="reason-select" class="reason-select" ngModel #selectReason="ngModel"
-                required>
-                <option value="logging">Незаконен дърводобив</option>
-                <option value="transport">Незаконен транспорт</option>
-                <option value="trash">Замърсяване</option>
-                <option value="other">Друго</option>
-            </select>
+            <div class="reason-select">
+                <select name="violation" id="violation" ngModel="" #selectReason="ngModel"
+                    required>
+                    <option value="" disabled selected>Вид нарушение</option>
+                    <option *ngFor="let option of violationOptions" [value]="option[0]">{{option[1]}}</option>
+                </select>
+            </div>
+            <div class="description">
+                <textarea name="description" id="description" cols="40" rows="3" ngModel #textDescription="ngModel"
+                    required placeholder="Описание">Описание</textarea>
+            </div>
         </div>
     </div>
-    <div class="description">
-        <label for="phone">Описание</label>
-        <textarea name="description" id="description" cols="40" rows="7" ngModel #textDescription="ngModel"
-            required>Описание</textarea>
-    </div>
-
-    <button [style]="{ backgroundColor: form.invalid ? 'grey' : 'green' }" [disabled]="form.invalid">
-        Изпрати
-    </button>
 </form>

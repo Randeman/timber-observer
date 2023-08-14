@@ -1,0 +1,70 @@
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.img-field {
+    width: 100%;
+    max-height: 200px;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.img-field > a {
+    width: 20%;
+    flex-grow: 1;
+    aspect-ratio: 1;
+}
+
+.img-field > a > img {
+    width: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    aspect-ratio: 1;
+}
+
+.information {
+    width: 100%;
+}
+
+.information table {
+  border: 2px solid #4F7849;
+  width: 100%;
+  font-size: 9px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.information table tbody tr > td{
+  border: 1px solid #4F7849;
+  background-color: white;
+  color: #4F7849;
+  border-collapse: collapse;
+}
+
+.information table tbody tr > td:first-child {
+  width: 30%;
+  background-color: #4F7849;
+  color: #FFFFFF;
+
+}
+
+.information table tbody > tr:last-child > td:first-child {
+  border-bottom: 2px solid #4F7849;
+}
+
+.information table tr:nth-child(even) > td:last-child {
+  background: #CEE0CC;
+}
+
+.modal-header > button {
+  padding: 3px;
+}
+
+
+
+

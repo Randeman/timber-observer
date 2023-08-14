@@ -1,0 +1,53 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">СИГНАЛ ЗА НАРУШЕНИЕ - {{violationOptions[data.violation] | uppercase}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="passBack()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="img-field">
+    <ng-container *ngIf="!!data.images">
+      <a *ngFor="let img of data.images" href="{{img}}" target="_blank" rel="noopener noreferrer">
+        <img src={{img}} alt="picture">
+      </a>
+    </ng-container>
+    <ng-container *ngIf="!data.images">
+      <img src="../../../assets/images/no-image.jpg" alt="picture">
+    </ng-container>
+  </div>
+  <div class="information">
+    <table>
+      <tbody>
+        <tr>
+          <td>Област</td>
+          <td>{{data.district || "-"}}</td>
+        </tr>
+        <tr>
+          <td>Община</td>
+          <td>{{data.municipality || "-"}}</td>
+        </tr>
+        <tr>
+          <td>Землище</td>
+          <td>{{data.land || "-"}}</td>
+        </tr>
+        <tr>
+          <td>Описание</td>
+          <td>{{data.description || "-"}}</td>
+        </tr>
+        <tr>
+          <td>Дата на подаване</td>
+          <td>{{data.createdAt}}</td>
+        </tr>
+        <tr *ngIf="data.updatedAt !== data.createdAt">
+          <td>Редактиран на</td>
+          <td >{{data.updatedAt}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <p>{{data | json}}</p> -->
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="passBack()">Close</button>
+</div>

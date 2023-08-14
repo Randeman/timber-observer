@@ -6,10 +6,10 @@ import { ApiService } from 'src/app/api.service';
 
 @Component({
   selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css'],
+  templateUrl: './ticket-modal.component.html',
+  styleUrls: ['./ticket-modal.component.css'],
 })
-export class ModalComponent implements OnInit {
+export class TicketModalComponent implements OnInit {
 
   @Input() public data: any;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();

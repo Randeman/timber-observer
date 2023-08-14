@@ -52,6 +52,31 @@ export class VectorLayerComponent implements OnInit, OnDestroy {
       complete: () => {this.isLoading = false}
     })
 
+    this.sub = this.apiService.getReports()
+    .subscribe({ 
+    next: (data: any) => {
+      Object.values(data).map((x: any) => {
+
+        this.vectorLayer = new OLVectorLayer({
+          source: new VectorSource({
+            features: this.createFeature(x)
+          }),
+          style: new Style({
+            image: new Icon({
+              anchorXUnits: "fraction",
+              anchorYUnits: "pixels",
+              src: "../../../assets/images/warning.png",
+            }),
+          })
+        });
+        this.map.addLayer(this.vectorLayer);
+        this.vectorLayer.setZIndex(0);
+      }
+    )
+  },
+  error: (err: Error) => {console.error(err)},
+  complete: () => {this.isLoading = false}
+})
  
   }
 

@@ -12,5 +12,12 @@
     "logLevel": "debug",
     "changeOrigin": true,
     "pathRewrite": { "^/api-ins": "" }
+  },
+  "/api-geo": {
+    "target": "http://api.geonames.org/findNearbyPostalCodesJSON",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": { "^/api-geo": "" }
   }
  }
