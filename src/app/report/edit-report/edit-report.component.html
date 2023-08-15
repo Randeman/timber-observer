@@ -1,5 +1,5 @@
-<app-map [viewVector]="viewVector" (coordinates)="setCoordinates($event)" [setInteractions]="setInteractions"
-    [removeInteractions]="removeInteractions">
+<app-map [viewVector]="viewVector" [setFeature]="setFeature" (coordinates)="setCoordinates($event)" [setDrawInteraction]="setDrawInteraction"
+[setModifyInteraction]="setModifyInteraction" [removeInteractions]="removeInteractions">
 </app-map>
 <form #form="ngForm" *ngIf="reportData" (ngSubmit)="onReport(form)">
     <div class="form-header">

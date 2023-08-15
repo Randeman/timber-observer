@@ -5,12 +5,10 @@ import View from 'ol/View';
 import { fromLonLat } from 'ol/proj';
 import * as olSource from "ol/source";
 import OLTileLayer from "ol/layer/Tile";
-import GeoJSON from "ol/format/GeoJSON";
 import OLVectorLayer from "ol/layer/Vector";
 import SimpleGeometry from 'ol/geom/SimpleGeometry';
-import { get } from "ol/proj";
 import VectorSource from 'ol/source/Vector';
-import { Style, Icon, Circle, Fill, Stroke } from "ol/style";
+import { Style, Circle, Fill, Stroke } from "ol/style";
 import { Draw, Modify, Snap } from 'ol/interaction.js';
 
 import { TicketModalComponent } from './modals/ticket-modal/ticket-modal.component';
@@ -40,7 +38,7 @@ const style = new Style({
     stroke: new Stroke({
       color: "red",
     }),
-  }),
+  })
 });
 
 
@@ -56,9 +54,11 @@ export class MapComponent implements OnInit {
   draw!: Draw;
   modify!: Modify;
   snap!: Snap;
+  @Input('setFeature') setFeature!: EventEmitter<any>;
   @Input() viewVector!: boolean;
   @Output() coordinates = new EventEmitter<string>;
-  @Input('setInteractions') setInteractions!: EventEmitter<null>;
+  @Input('setDrawInteraction') setDrawInteraction!: EventEmitter<null>;
+  @Input('setModifyInteraction') setModifyInteraction!: EventEmitter<null>;
   @Input('removeInteractions') removeInteractions!: EventEmitter<null>;
 
   setCoordinates(value: string) {
@@ -81,7 +81,6 @@ export class MapComponent implements OnInit {
         zoom,
       }),
     });
-
 
     this.map.on('click', (evt: any) => {
 
@@ -109,13 +108,24 @@ export class MapComponent implements OnInit {
 
     });
 
-    this.setInteractions?.subscribe(e => {
-      this.addInteractions();
+    this.setDrawInteraction?.subscribe(e => {
+      this.addDrawInteraction();
+    });
+
+    this.setModifyInteraction?.subscribe(e => {
+      this.addModifyInteraction();
     });
 
     this.removeInteractions?.subscribe(e => {
       this.deleteInteractions();
     });
+
+    this.setFeature?.subscribe(feature => { 
+      source.addFeatures(feature);
+      source.forEachFeature(feature => feature.setStyle(style));
+      vectorLayer.setMap(this.map);
+    })
+   
 
   }
 
@@ -126,12 +136,10 @@ export class MapComponent implements OnInit {
     });
   }
 
-  addInteractions() {
+  addDrawInteraction() {
 
     if (!this.map) return;
-    this.modify = new Modify({ source: source });
-    this.map.addInteraction(this.modify);
-
+    
     this.draw = new Draw({
       source: source,
       type: "Point",
@@ -157,9 +165,6 @@ export class MapComponent implements OnInit {
         coordinates = [];
       }
 
-      let figure = new GeoJSON()
-        .writeFeatures([drawFeature], { featureProjection: get("EPSG:3857") } as any);
-
       drawFeature.setStyle(style);
 
       vectorLayer.setMap(this.map);
@@ -169,6 +174,16 @@ export class MapComponent implements OnInit {
 
       this.setCoordinates(coordinates.reverse().join(", "));
     });
+  }
+
+  addModifyInteraction() {
+
+    if (!this.map) return;
+    this.modify = new Modify({ source: source });
+    this.map.addInteraction(this.modify);
+
+    this.snap = new Snap({ source: source });
+    this.map.addInteraction(this.snap);
 
     this.modify.on('modifyend', (e: any) => {
 
@@ -185,9 +200,6 @@ export class MapComponent implements OnInit {
       } else {
         coordinates = [];
       }
-
-      let figure = new GeoJSON()
-        .writeFeatures([modifyFeature], { featureProjection: get("EPSG:3857") } as any);
 
       modifyFeature.setStyle(style);
 

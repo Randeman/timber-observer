@@ -19,7 +19,8 @@ export class ReportComponent implements OnDestroy {
   viewVector: boolean = false;
   coordinates: string = "";
   interactionMode: boolean = false;
-  setInteractions = new EventEmitter<null>;
+  setDrawInteraction = new EventEmitter<null>;
+  setModifyInteraction = new EventEmitter<null>;
   removeInteractions = new EventEmitter<null>;
   currentFileUpload?: FileUpload;
   violationOptions: Array<string[]> = [['logging', "Незаконен дърводобив"], ['transport', "Незаконен транспорт"], ['trash', "Замърсяване"], ['other', "Друго"]];
@@ -39,7 +40,8 @@ export class ReportComponent implements OnDestroy {
   }
 
   onSetInteractions() {
-    this.setInteractions.emit(null);
+    this.setDrawInteraction.emit(null);
+    this.setModifyInteraction.emit(null);
     this.interactionMode = !this.interactionMode;
   }
 

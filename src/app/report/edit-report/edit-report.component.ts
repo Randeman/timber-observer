@@ -1,6 +1,9 @@
-import { Component, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import GeoJSON from "ol/format/GeoJSON";
+import { get } from "ol/proj";
 
 import { ApiService } from 'src/app/api.service';
 import { FileUpload } from '../file.upload';
@@ -20,7 +23,9 @@ export class EditReportComponent implements OnInit, OnDestroy {
   viewVector: boolean = false;
   coordinates: string = "";
   interactionMode: boolean = false;
-  setInteractions = new EventEmitter<null>;
+  setFeature = new EventEmitter<any>;
+  setDrawInteraction = new EventEmitter<null>;
+  setModifyInteraction = new EventEmitter<null>;
   removeInteractions = new EventEmitter<null>;
   currentFileUpload?: FileUpload;
   violationOptions: Array<string[]> = [['logging', "Незаконен дърводобив"], ['transport', "Незаконен транспорт"], ['trash', "Замърсяване"], ['other', "Друго"]];
@@ -40,9 +45,11 @@ export class EditReportComponent implements OnInit, OnDestroy {
   }
 
   onSetInteractions() {
-    this.setInteractions.emit(null);
+    this.setDrawInteraction.emit(null);
+    this.setModifyInteraction.emit(null);
     this.interactionMode = !this.interactionMode;
   }
+
 
   onDeleteInteractions() {
     this.removeInteractions.emit(null);
@@ -66,8 +73,10 @@ export class EditReportComponent implements OnInit, OnDestroy {
         next: data => {
           this.reportData = data;
           this.urls = this.reportData.images || [];
+          this.setFeature.emit(this.createFeature(this.reportData.gps_lat, this.reportData.gps_lon))
+          this.setModifyInteraction.emit(null);
+          this.interactionMode = !this.interactionMode;
         }});
-
 
   }
 
@@ -86,14 +95,14 @@ export class EditReportComponent implements OnInit, OnDestroy {
       ).subscribe(() =>
         this.apiService.editReport(this.reportId, {
           gps_lat, gps_lon, violation, description, district, municipality, land, 
-          images: [...this.uploadService.uploadUrls, ...currentUrls], author: user.uid,
+          images: [...this.uploadService.uploadUrls, ...currentUrls], author: user?.uid,
           createdAt: this.reportData.createdAt, updatedAt: new Date().toISOString()
         })
       );
     } else{
       this.apiService.editReport(this.reportId, {
         gps_lat, gps_lon, violation, description, district, municipality, land, 
-        images: this.urls, author: user.uid,
+        images: this.urls, author: user?.uid,
         createdAt: this.reportData.createdAt, updatedAt: new Date().toISOString()
       })
     }
@@ -134,6 +143,12 @@ export class EditReportComponent implements OnInit, OnDestroy {
       this.municipality = data["postalCodes"]["0"] ? data["postalCodes"]["0"]["adminName2"] || "Няма данни" : "Няма данни";
       this.land = data["postalCodes"]["0"] ? data["postalCodes"]["0"]["placeName"] || "Няма данни" : "Няма данни";
     })
+  }
+
+  createFeature(lat, lon) {
+    const figure = `{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[${lon},${lat}]},"properties":null}]}`
+    const feature = new GeoJSON().readFeatures(JSON.parse(figure), { featureProjection: get("EPSG:3857") } as any);
+    return feature;
   }
 
   ngOnDestroy(): void {

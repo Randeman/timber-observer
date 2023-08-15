@@ -1,4 +1,6 @@
-<app-map [viewVector]="viewVector" (coordinates)="setCoordinates($event)" [setInteractions]="setInteractions"
+<app-map [viewVector]="viewVector" (coordinates)="setCoordinates($event)" 
+    [setDrawInteraction]="setDrawInteraction"
+    [setModifyInteraction]="setModifyInteraction" 
     [removeInteractions]="removeInteractions">
 </app-map>
 <form #form="ngForm" (ngSubmit)="onReport(form)">
