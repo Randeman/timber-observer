@@ -4,4 +4,5 @@ main{
     width: 100%;
     flex-direction: column;
     justify-content: flex-start;
+    padding: 1em;
 }

@@ -3,11 +3,10 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ApiService } from 'src/app/api.service';
-import { FileUpload } from './file.upload';
-import { FileUploadService } from './file.upload.service';
+import { FileUpload } from '../file.upload';
+import { FileUploadService } from '../file.upload.service';
 import { delay } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
-import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -70,14 +69,14 @@ export class ReportComponent implements OnDestroy {
       of(this.upload()).pipe(
         delay(20000),
       ).subscribe(() =>
-        this.apiService.storeReports({
+        this.apiService.storeReport({
           gps_lat, gps_lon, violation, description, district, municipality, land, 
           images: this.uploadService.uploadUrls, author: user.uid,
           createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
         })
       );
     } else{
-      this.apiService.storeReports({
+      this.apiService.storeReport({
         gps_lat, gps_lon, violation, description, district, municipality, land, 
         images: this.uploadService.uploadUrls, author: user.uid,
         createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
@@ -104,7 +103,6 @@ export class ReportComponent implements OnDestroy {
   deleteImage(url: any, index): void {
     this.urls = this.urls.filter((x, i) => x !== url || i !== index);
     this.files = this.files.filter((x, i) => i !== index);
-
   }
 
   upload() {

@@ -28,7 +28,7 @@ export class VectorLayerComponent implements OnInit, OnDestroy {
       this.sub = this.apiService.getFullTickets()
         .subscribe({ 
         next: (data: any) => {
-          data.map((x: any) => {
+          (data || []).map((x: any) => {
 
             this.vectorLayer = new OLVectorLayer({
               source: new VectorSource({
@@ -55,7 +55,7 @@ export class VectorLayerComponent implements OnInit, OnDestroy {
     this.sub = this.apiService.getReports()
     .subscribe({ 
     next: (data: any) => {
-      Object.values(data).map((x: any) => {
+      Object.entries(data || []).map((x: any) => {
 
         this.vectorLayer = new OLVectorLayer({
           source: new VectorSource({
@@ -86,9 +86,12 @@ export class VectorLayerComponent implements OnInit, OnDestroy {
   }
 
   createFeature(x: any) {
-    const figure = `{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[${x.gps_lon},${x.gps_lat}]},"properties":${JSON.stringify(x)}}]}`
+    const figure = `{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[${x.gps_lon || x[1].gps_lon},${x.gps_lat || x[1].gps_lat}]},"properties":${JSON.stringify(x)}}]}`
     const feature = new GeoJSON().readFeatures(JSON.parse(figure), { featureProjection: get("EPSG:3857") } as any);
     return feature  
   }
+
+ 
+
 
 }

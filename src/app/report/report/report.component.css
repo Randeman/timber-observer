@@ -1,0 +1,157 @@
+form {
+    margin-top: 1em;
+    padding: 1em 0.5em;
+    border-radius: 10px;
+    border: 1px solid brown;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1em;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.5);
+    background-color: rgba(210, 105, 30, 0.7);
+}
+
+form button {
+    color: white;
+    font-weight: bold;
+    padding: 3px 12px;
+    border-radius: 10px;
+    border: none;
+}
+
+form input,
+form textarea,
+form select {
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    width: 100%;
+    padding: 4px 8px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.form-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+    
+.form-header h2 {
+    font-weight: bold;
+    padding: 4px 8px;
+}
+
+.form-header button {
+    padding: 5px 15px;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.images {
+    width: 100%;
+    display: flex;
+    border-radius: 10px;
+    border: 1px dotted rgba(0, 0, 0, 0.5);
+    padding: 1em;
+    gap: 1em;
+}
+
+.img-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+
+.img-card{
+    width: 100px;
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.img-card img{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.img-delete {
+    display: block;
+    background-color: brown;
+    color: white;
+    cursor: pointer;
+    padding: 4px 8px;
+    position: absolute;
+    top:0;
+    right: 0;
+}
+
+#img-input {
+    display: none;
+}
+
+#images-input-label {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 3px 12px;
+    border-radius: 10px;
+    border: none;
+    background-color: brown;
+    cursor: pointer;
+  }
+
+
+.content {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
+
+.coordinates {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1 1 40%;
+}
+
+.coordinates input {
+    width: 100%;
+}
+
+.coordinates button {
+    margin-top: 5px;
+    margin-right: 5px;
+    
+}
+
+.place {
+   width: 100%;
+   display: flex;
+   gap: 0.5em;
+}
+
+.place > * {
+    flex: 1 1 30%;
+}
+
+.reason {
+   flex: 1 1 20%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   gap: 0.5em;
+}
+
+
+.description {
+   height: fit-content;
+   flex-grow: 1;
+}

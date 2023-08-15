@@ -65,10 +65,18 @@ export class ApiService implements OnDestroy {
                 
   }
 
-  storeReports(reportData) {
+  storeReport(reportData) {
     
     this.sub = this.http.post(
         `${databaseURL}/reports/.json`,
+        { ...reportData }).subscribe();
+
+  }
+
+  editReport(id, reportData) {
+    
+    this.sub = this.http.put(
+        `${databaseURL}/reports/${id}/.json`,
         { ...reportData }).subscribe();
 
   }
@@ -77,6 +85,17 @@ export class ApiService implements OnDestroy {
   getReports() {
     return this.http.get(
       `${databaseURL}/reports/.json`);
+  }
+
+  getReport(id) {
+    return this.http.get(
+      `${databaseURL}/reports/${id}/.json`);
+  }
+
+  deleteReport(id) {
+    this.sub = this.http.delete(
+      `${databaseURL}/reports/${id}/.json`
+    ).subscribe()
   }
 
 

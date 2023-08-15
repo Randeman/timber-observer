@@ -1,13 +1,14 @@
 <app-map [viewVector]="viewVector" (coordinates)="setCoordinates($event)" [setInteractions]="setInteractions"
     [removeInteractions]="removeInteractions">
 </app-map>
-<form #form="ngForm" (ngSubmit)="onReport(form)">
+<form #form="ngForm" *ngIf="reportData" (ngSubmit)="onReport(form)">
     <div class="form-header">
         <h2>Подай сигнал за нарушение в горите</h2>
         <button [style]="{ backgroundColor: form.invalid ? 'grey' : 'green' }" [disabled]="form.invalid">
-            ИЗПРАТИ
+            ЗАПАЗИ
         </button>
     </div>
+    {{reportData | json}}
     <div class="images">
         <div class="input-field">
             <label id="images-input-label" for="img-input">
@@ -26,19 +27,19 @@
     </div>
     <div class="content">
         <div class="coordinates">
-            <input type="text" name="coordinates" id="coordinates" [ngModel]="coordinates" #inputCoordinates="ngModel"
-                required readonly placeholder="Място на нарушението (координати)">
+            <input type="text" name="coordinates" id="coordinates" [ngModel]="coordinates || (reportData.gps_lat.concat(', ', reportData.gps_lon))" #inputCoordinates="ngModel"
+                required readonly placeholder="Място на нарушението (координати)"  >
                 <div class="place">
                     <div class="district">
-                        <input type="text" name="district" id="district" [ngModel]="district" #inputDistrict="ngModel" 
+                        <input type="text" name="district" id="district" [ngModel]="district || reportData.district" #inputDistrict="ngModel" 
                         required placeholder="Област" >
                     </div>
                     <div class="municipality">
-                        <input type="text" name="municipality" id="municipality" [ngModel]="municipality" #inputMunicipality="ngModel" 
+                        <input type="text" name="municipality" id="municipality" [ngModel]="municipality  || reportData.municipality" #inputMunicipality="ngModel" 
                         required placeholder="Община" >
                     </div>
                     <div class="land">
-                        <input type="text" name="land" id="land" [ngModel]="land" #inputLand="ngModel" 
+                        <input type="text" name="land" id="land" [ngModel]="land || reportData.land" #inputLand="ngModel" 
                         required placeholder="Землище" >
                     </div>
                 </div>
@@ -53,15 +54,15 @@
         </div>
         <div class="reason">
             <div class="reason-select">
-                <select name="violation" id="violation" ngModel="" #selectReason="ngModel"
+                <select name="violation" id="violation" ngModel="{{reportData.violation}}" #selectReason="ngModel"
                     required>
-                    <option value="" disabled selected>Вид нарушение</option>
+                    <option value="" disabled >Вид нарушение</option>
                     <option *ngFor="let option of violationOptions" [value]="option[0]">{{option[1]}}</option>
                 </select>
             </div>
             <div class="description">
-                <textarea name="description" id="description" cols="40" rows="3" ngModel #textDescription="ngModel"
-                    required placeholder="Описание">Описание</textarea>
+                <textarea name="description" id="description" cols="40" rows="3" ngModel="{{reportData.description}}" #textDescription="ngModel"
+                    required placeholder="Описание"></textarea>
             </div>
         </div>
     </div>

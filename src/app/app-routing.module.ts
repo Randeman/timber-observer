@@ -1,22 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ReportComponent } from './report/report.component';
 import { ObserverComponent } from './observer/observer.component';
 
 const routes: Routes = [
   {
     path: "",
     pathMatch: "full",
-    redirectTo: "/report"
+    redirectTo: "/home"
   },
   {
     path: "home",
     component: HomeComponent
-  },
-  {
-    path: "report",
-    component: ReportComponent
   },
   {
     path: "observer",
@@ -25,6 +20,10 @@ const routes: Routes = [
   {
     path: "auth",
     loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
+  },
+  {
+    path: "reports",
+    loadChildren: () => import("./report/report.module").then(m => m.ReportModule)
   },
   // {
   //   path: "**",
