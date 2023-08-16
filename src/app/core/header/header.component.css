@@ -3,17 +3,17 @@ header {
     height: 80px;
     display: flex;
     justify-content: flex-end;
-    padding: 1em 2em;
+    padding: 0.8em 2em;
     background-color: chocolate;
     box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.5);
 }
 
 .logo {
-    position: relative;
     width: 50%;
     display: flex;
     flex-grow: 1;
     align-items: center;
+    justify-content: flex-start;
     gap:10px;
 }
 
@@ -22,12 +22,17 @@ header {
     height: auto;
     position: absolute;
     top: 50%;
-    left: 5%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.logo a {
-    width: 10%;
+.logo > a {
+    display: block;
+    width: 40px;
+    aspect-ratio: 1;
+    position: relative;
+    color: initial;
+    text-decoration: none;
 }
 
 .logo h1 {
@@ -41,27 +46,37 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    justify-content: space-around;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5em;
 }
 
 .nav-icon-links {
     display: flex;
     text-align: center;
-    gap: 2em;
-    font-size: 0.8em;
+    gap: 1em;
+    font-size: 0.9em;
 }
 
-.logo a,
 .nav-icon-links a,
 .nav-links a {
+    display: block;
     color: initial;
     text-decoration: none;
+    padding: 2px 6px;
+}
+
+.nav-icon-links a:hover,
+.nav-links a:hover {
+    background-color:goldenrod ;
 }
 
 .nav-icon-links i {
     display: block;
+    margin-top: 2px;
     font-weight: bold;
-}
-
-.nav-links a {
-    margin-left: 1.5em;
 }

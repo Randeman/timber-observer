@@ -1,26 +1,40 @@
 <form #form="ngForm" (ngSubmit)="onLogin(form)">
 
-    <div class="displayTable">
-        <div class="displayTableCell">
-            <div class="authBlock">
+
+            <div class="login-panel">
                 <h3>Login</h3>
-                <div class="formGroup">
+                <div class="input-field">
                     <input type="email" name="email" class="formControl" placeholder="Email" ngModel #inputEmail="ngModel"
                         required />
                 </div>
-                <div class="formGroup">
+                <ng-container *ngIf="inputEmail.touched">
+                    <p class="error" *ngIf="inputEmail.errors?.['required']">
+                        Email is required!
+                    </p>
+                    <!-- {{inputEmail.errors | json}} -->
+                </ng-container>
+                <div class="input-field">
                     <input type="password" name="password" class="formControl" placeholder="Password" ngModel #inputPassword="ngModel"
-                    autocomplete="on"  required />
+                    autocomplete="on"  minlength="6" required />
                 </div>
-                <!-- Calling SignIn Api from AuthService -->
-                <div class="formGroup">
-                    <input type="submit" class="btn btnPrimary" value="Log in" />
+                <ng-container *ngIf="inputPassword.touched">
+                    <p class="error" *ngIf="inputPassword.errors?.['required']">
+                        Password is required!
+                    </p>
+                    <!-- {{inputPassword.errors | json}} -->
+                </ng-container>
+                <div class="button-field">
+                    <button type="submit" 
+                    [style]="{ backgroundColor: form.invalid ? 'grey' : 'brown' }" 
+                    [disabled]="form.invalid">
+                    Log in
+                </button>
                 </div>
             </div>
-            <div class="redirectToLogin">
+            <div class="redirectToRegister">
                 <span>Don't have an account?<span class="redirect" routerLink="/auth/register">
                         Sign Up</span></span>
             </div>
-        </div>
-    </div>
+
+ 
 </form>

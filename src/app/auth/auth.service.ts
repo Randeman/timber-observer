@@ -53,8 +53,7 @@ export class AuthService {
       });
   }
   // Sign up with email/password
-  Register({email, password, firstName, lastName, phone}: 
-    {email: string, password: string, firstName: string, lastName: string, phone: string}) {
+  Register(firstName, lastName, email, phone, password) {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {

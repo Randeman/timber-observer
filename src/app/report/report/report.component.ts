@@ -23,7 +23,7 @@ export class ReportComponent implements OnDestroy {
   setModifyInteraction = new EventEmitter<null>;
   removeInteractions = new EventEmitter<null>;
   currentFileUpload?: FileUpload;
-  violationOptions: Array<string[]> = [['logging', "Незаконен дърводобив"], ['transport', "Незаконен транспорт"], ['trash', "Замърсяване"], ['other', "Друго"]];
+  violationOptions: Array<string[]> = [['logging', "Illegal Logging"], ['transport', "Illegal Transportation"], ['trash', "Pollution"], ['other', "Other"]];
   urls: string[] = [];
   files: File[] = [];
   district: string;

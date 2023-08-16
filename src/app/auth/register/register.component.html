@@ -1,85 +1,84 @@
+<form [formGroup]="form" (ngSubmit)="onRegister()">
 
-<form #form="ngForm" (ngSubmit)="onRegister(form)">
-    <div class="displayTableCell">
-      <div class="authBlock">
-        <h3>Register</h3>
-        <div class="formGroup">
-            <input type="text" 
-            name="firstName"
-            class="formControl" 
-            placeholder="First Name" 
-            ngModel 
-            #inputFirstName="ngModel"
-            required 
-            />
-        </div>
-        <div class="formGroup">
-            <input type="text" 
-            name="lastName"
-            class="formControl" 
-            placeholder="Last Name" 
-            ngModel 
-            #inputFirstName="ngModel"
-            required
-            />
-        </div>
-        <div class="formGroup">
-            <input type="text"
-            name="phone"
-            class="formControl" 
-            placeholder="+359 ......." 
-            ngModel 
-            #inputPhone="ngModel"
-            required 
-            />
-        </div>
-        <div class="formGroup">
-            <input type="email" 
-            name="email"
-            class="formControl" 
-            placeholder="Email" 
-            ngModel 
-            #inputEmail="ngModel" 
-            required />
-        </div>
-        <div class="formGroup">
-            <input type="password"
-            name="password" 
-            class="formControl" 
-            placeholder="Password" 
-            ngModel 
-            #inputPassword="ngModel"
-            required 
-            autocomplete="on"
-            minlength="6" />
-        </div>
-        <div class="formGroup">
-            <input type="password" 
-            name="rePassword"
-            class="formControl" 
-            placeholder="Repeat password" 
-            ngModel 
-            #inputRepassword="ngModel"
-            required 
-            autocomplete="on"
-            />
-        </div>
-        <div class="formGroup">
-          <input
-            type="submit"
-            class="btn btnPrimary"
-            value="Sign Up"
-          />
-        </div>
-        <div class="formGroup">
-          <span class="or"><span class="orInner">Or</span></span>
-        </div>
-      <div class="redirectToLogin">
-        <span
-          >Already have an account?
-          <span class="redirect" routerLink="/sign-in">Log In</span></span
-        >
-      </div>
+  <div class="register-panel">
+    <h3>Register</h3>
+    <div class="input-field">
+      <input type="text" name="firstName" class="formControl" placeholder="First Name" 
+      formControlName="firstName"
+        required />
+    </div>
+    <ng-container *ngIf="form.get('firstName')?.touched">
+      <p class="error" *ngIf="form.get('username')?.errors?.['required']">
+        First name is required!
+      </p>
+    </ng-container>
+    <div class="input-field">
+      <input type="text" name="lastName" class="formControl" placeholder="Last Name" 
+      formControlName="lastName"
+        required />
+    </div>
+    <ng-container *ngIf="form.get('lastName')?.touched">
+      <p class="error" *ngIf="form.get('lastName')?.errors?.['required']">
+        Last name is required!
+      </p>
+    </ng-container>
+    <div class="input-field">
+      <input type="text" name="phone" placeholder="+359 ......." 
+      formControlName="phone" required />
+    </div>
+    <ng-container *ngIf="form.get('phone')?.errors?.['required']">
+      <p class="error" *ngIf="form.get('phone')?.errors?.['required']">
+        Phone is required!
+      </p>
+    </ng-container>
+    <div class="input-field">
+      <input type="email" name="email" placeholder="Email" 
+      formControlName="email" required />
+    </div>
+    <ng-container *ngIf="form.get('email')?.touched">
+      <p class="error" *ngIf="form.get('email')?.errors?.['required']">
+        Email is required!
+      </p>
+    </ng-container>
+    <div class="input-field">
+      <input type="password" name="password" placeholder="Password" 
+      formControlName="password"
+        autocomplete="on" 
+        />
+    </div>
+    <ng-container *ngIf="form.get('passwordsGroup')?.get('password')?.touched">
+      <p class="error" *ngIf="form.get('passwordsGroup')?.get('password')?.errors?.['required']">
+        Password is required!
+      </p>
+      <p class="error" *ngIf="form.get('passwordsGroup')?.get('password')?.errors?.['minlength']">
+        Password must be at least {{form.get('passwordsGroup')?.get('password')?.errors?.['minlength']["requiredLength"]}} characters!
+      </p>
+      <!-- {{form.get('passwordsGroup')?.get('password')?.errors | json}} -->
+    </ng-container>
+    <div class="input-field">
+      <input type="password" name="rePassword" placeholder="Repeat password" 
+      formControlName="rePassword"
+        autocomplete="on" 
+        />
+    </div>
+    <ng-container *ngIf="form.get('passwordsGroup')?.get('rePassword')?.touched">
+      <p class="error" *ngIf="form.get('passwordsGroup')?.get('rePassword')?.errors?.['required']">
+        Repassword is required!
+      </p>
+      <p class="error" *ngIf="form.get('passwordsGroup')?.get('rePassword')?.errors?.['matchPasswordsValidator']">
+        Repeat Password does not match password!!
+      </p>
+       <!-- {{form.get('passwordsGroup')?.get('rePassword')?.errors | json}} -->
+    </ng-container>
+    <div class="button-field">
+      <button type="submit" [style]="{ backgroundColor: form.invalid ? 'grey' : 'brown' }" [disabled]="form.invalid">
+        Sign Up
+      </button>
     </div>
   </div>
+  <div class="redirectToLogin">
+    <span>Already have an account?
+      <span class="redirect" routerLink="/auth/login">Log In</span></span>
+  </div>
+
 </form>

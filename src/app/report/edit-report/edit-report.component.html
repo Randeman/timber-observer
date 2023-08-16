@@ -3,16 +3,16 @@
 </app-map>
 <form #form="ngForm" *ngIf="reportData" (ngSubmit)="onReport(form)">
     <div class="form-header">
-        <h2>Подай сигнал за нарушение в горите</h2>
-        <button [style]="{ backgroundColor: form.invalid ? 'grey' : 'green' }" [disabled]="form.invalid">
-            ЗАПАЗИ
+        <h2>Report a forest violation</h2>
+        <button [style]="{ backgroundColor: form.invalid ? 'grey' : 'brown' }" [disabled]="form.invalid">
+            SAVE
         </button>
     </div>
-    {{reportData | json}}
+    <!-- {{reportData | json}} -->
     <div class="images">
         <div class="input-field">
             <label id="images-input-label" for="img-input">
-               Приложи снимки (опция)
+                Attach photos (optional)
             </label>
             <input type="file" id="img-input" #inputImages multiple="multiple"
                 accept="image/jpeg, image/png, image/jpg"  autocomplete="off"
@@ -27,42 +27,75 @@
     </div>
     <div class="content">
         <div class="coordinates">
-            <input type="text" name="coordinates" id="coordinates" [ngModel]="coordinates || (reportData.gps_lat.concat(', ', reportData.gps_lon))" #inputCoordinates="ngModel"
-                required readonly placeholder="Място на нарушението (координати)"  >
+            <input type="text" name="coordinates" id="coordinates" [ngModel]="coordinates" #inputCoordinates="ngModel"
+                required readonly placeholder="Place of violation (coordinates)"  >
+                <ng-container *ngIf="inputCoordinates.touched">
+                    <p class="error" *ngIf="inputCoordinates.errors?.['required']">
+                        Coordinates are required! Show on the map!
+                    </p>
+                </ng-container>
                 <div class="place">
                     <div class="district">
-                        <input type="text" name="district" id="district" [ngModel]="district || reportData.district" #inputDistrict="ngModel" 
-                        required placeholder="Област" >
+                        <input type="text" name="district" id="district" [ngModel]="district" #inputDistrict="ngModel" 
+                        required placeholder="District" >
+                        <ng-container *ngIf="inputDistrict.touched">
+                            <p class="error" *ngIf="inputDistrict.errors?.['required']">
+                                District is required!
+                            </p>
+                        </ng-container>
                     </div>
                     <div class="municipality">
-                        <input type="text" name="municipality" id="municipality" [ngModel]="municipality  || reportData.municipality" #inputMunicipality="ngModel" 
-                        required placeholder="Община" >
+                        <input type="text" name="municipality" id="municipality" [ngModel]="municipality" #inputMunicipality="ngModel" 
+                        required placeholder="Municipality" >
+                        <ng-container *ngIf="inputMunicipality.touched">
+                            <p class="error" *ngIf="inputMunicipality.errors?.['required']">
+                                Municipality is required!
+                            </p>
+                        </ng-container>
                     </div>
                     <div class="land">
-                        <input type="text" name="land" id="land" [ngModel]="land || reportData.land" #inputLand="ngModel" 
-                        required placeholder="Землище" >
+                        <input type="text" name="land" id="land" [ngModel]="land" #inputLand="ngModel" 
+                        required placeholder="Land" >
+                        <ng-container *ngIf="inputLand.touched">
+                            <p class="error" *ngIf="inputLand.errors?.['required']">
+                                Land is required!
+                            </p>
+                        </ng-container>
                     </div>
                 </div>
             <button type="button" [style]="{ backgroundColor: interactionMode ? 'grey' : 'brown' }"
                 [disabled]="interactionMode" (click)="onSetInteractions()">
-                Посочи на картата
+                Show on the map
             </button>
             <button type="button" [style]="{ backgroundColor: !interactionMode ? 'grey' : 'brown' }"
                 [disabled]="!interactionMode" (click)="onDeleteInteractions()">
-                Изтрий
+                Delete
             </button>
         </div>
         <div class="reason">
             <div class="reason-select">
                 <select name="violation" id="violation" ngModel="{{reportData.violation}}" #selectReason="ngModel"
                     required>
-                    <option value="" disabled >Вид нарушение</option>
+                    <option value="" disabled >Type of violation</option>
                     <option *ngFor="let option of violationOptions" [value]="option[0]">{{option[1]}}</option>
                 </select>
+                <ng-container *ngIf="selectReason.touched">
+                    <p class="error" *ngIf="selectReason.errors?.['required']">
+                        Type of violation is required!
+                    </p>
+                </ng-container>
             </div>
             <div class="description">
                 <textarea name="description" id="description" cols="40" rows="3" ngModel="{{reportData.description}}" #textDescription="ngModel"
-                    required placeholder="Описание"></textarea>
+                    required placeholder="Description" minlength="5" maxlength="1000"></textarea>
+                    <ng-container *ngIf="textDescription.touched">
+                        <p class="error" *ngIf="textDescription.errors?.['required']">
+                            Description is required!
+                        </p>
+                        <p class="error" *ngIf="textDescription?.errors?.['minlength']">
+                            Description must be between {{textDescription?.errors?.['minlength']['requiredLength']}} and 1000 characters!
+                        </p>
+                    </ng-container>
             </div>
         </div>
     </div>

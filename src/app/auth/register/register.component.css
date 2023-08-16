@@ -1,0 +1,50 @@
+form {
+    margin: 0 auto;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2em;
+    width: 70%;
+    max-width: 300px;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.5);
+    background-color: rgba(210, 105, 30, 0.7);
+    border: 1px solid brown;
+    border-radius: 10px;
+}
+
+form button {
+    color: white;
+    background-color: brown;
+    font-weight: bold;
+    padding: 3px 12px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+form input {
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    width: 100%;
+    padding: 4px 8px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.register-panel {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 1em;
+}
+
+.redirectToLogin span {
+    font-weight: bold;
+}
+
+.redirectToLogin .redirect {
+    color: bisque;
+    cursor: pointer;
+}

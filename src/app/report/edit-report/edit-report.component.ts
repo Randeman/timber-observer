@@ -28,13 +28,12 @@ export class EditReportComponent implements OnInit, OnDestroy {
   setModifyInteraction = new EventEmitter<null>;
   removeInteractions = new EventEmitter<null>;
   currentFileUpload?: FileUpload;
-  violationOptions: Array<string[]> = [['logging', "Незаконен дърводобив"], ['transport', "Незаконен транспорт"], ['trash', "Замърсяване"], ['other', "Друго"]];
+  violationOptions: Array<string[]> = [['logging', "Illegal Logging"], ['transport', "Illegal Transportation"], ['trash', "Pollution"], ['other', "Other"]];
   urls: string[] = [];
   files: File[] = [];
   district: string;
   municipality: string;
   land: string;
-  id: any;
 
 
   setCoordinates(coordinates: string) {
@@ -73,6 +72,10 @@ export class EditReportComponent implements OnInit, OnDestroy {
         next: data => {
           this.reportData = data;
           this.urls = this.reportData.images || [];
+          this.coordinates = this.reportData.gps_lat.concat(', ', this.reportData.gps_lon);
+          this.district = this.reportData.district;
+          this.municipality = this.reportData.municipality;
+          this.land = this.reportData.land;
           this.setFeature.emit(this.createFeature(this.reportData.gps_lat, this.reportData.gps_lon))
           this.setModifyInteraction.emit(null);
           this.interactionMode = !this.interactionMode;
