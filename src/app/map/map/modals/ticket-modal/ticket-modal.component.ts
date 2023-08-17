@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ApiService } from 'src/app/api.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-modal',
@@ -17,7 +18,7 @@ export class TicketModalComponent implements OnInit {
   isLoading: boolean = true;
 
   constructor(public activeModal: NgbActiveModal,
-   private apiService: ApiService) { }
+   private apiService: ApiService, private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -27,6 +28,10 @@ export class TicketModalComponent implements OnInit {
         this.isLoading = false;
       })
 
+  }
+
+  get isLoggedIn(){
+    return this.authService.isLoggedIn;
   }
 
   passBack() {

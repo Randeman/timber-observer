@@ -8,7 +8,7 @@
         required />
     </div>
     <ng-container *ngIf="form.get('firstName')?.touched">
-      <p class="error" *ngIf="form.get('username')?.errors?.['required']">
+      <p class="error" *ngIf="form.get('firstName')?.errors?.['required']">
         First name is required!
       </p>
     </ng-container>
@@ -23,52 +23,54 @@
       </p>
     </ng-container>
     <div class="input-field">
-      <input type="text" name="phone" placeholder="+359 ......." 
-      formControlName="phone" required />
+      <input type="text" name="phone" class="formControl" placeholder="+359..." 
+      formControlName="phone"
+        required />
     </div>
-    <ng-container *ngIf="form.get('phone')?.errors?.['required']">
+    <ng-container *ngIf="form.get('phone')?.touched">
       <p class="error" *ngIf="form.get('phone')?.errors?.['required']">
         Phone is required!
       </p>
     </ng-container>
     <div class="input-field">
-      <input type="email" name="email" placeholder="Email" 
+      <input type="email" name="email" placeholder="Email" class="formControl"
       formControlName="email" required />
     </div>
     <ng-container *ngIf="form.get('email')?.touched">
       <p class="error" *ngIf="form.get('email')?.errors?.['required']">
         Email is required!
       </p>
+      <p class="error" *ngIf="form.get('email')?.errors?.['pattern']">
+        Email is invalid!
+      </p>
     </ng-container>
-    <div class="input-field">
-      <input type="password" name="password" placeholder="Password" 
-      formControlName="password"
-        autocomplete="on" 
-        />
-    </div>
-    <ng-container *ngIf="form.get('passwordsGroup')?.get('password')?.touched">
-      <p class="error" *ngIf="form.get('passwordsGroup')?.get('password')?.errors?.['required']">
-        Password is required!
-      </p>
-      <p class="error" *ngIf="form.get('passwordsGroup')?.get('password')?.errors?.['minlength']">
-        Password must be at least {{form.get('passwordsGroup')?.get('password')?.errors?.['minlength']["requiredLength"]}} characters!
-      </p>
-      <!-- {{form.get('passwordsGroup')?.get('password')?.errors | json}} -->
-    </ng-container>
-    <div class="input-field">
-      <input type="password" name="rePassword" placeholder="Repeat password" 
-      formControlName="rePassword"
-        autocomplete="on" 
-        />
-    </div>
-    <ng-container *ngIf="form.get('passwordsGroup')?.get('rePassword')?.touched">
-      <p class="error" *ngIf="form.get('passwordsGroup')?.get('rePassword')?.errors?.['required']">
-        Repassword is required!
-      </p>
-      <p class="error" *ngIf="form.get('passwordsGroup')?.get('rePassword')?.errors?.['matchPasswordsValidator']">
-        Repeat Password does not match password!!
-      </p>
-       <!-- {{form.get('passwordsGroup')?.get('rePassword')?.errors | json}} -->
+    <ng-container formGroupName="passwordsGroup">
+      <div class="input-field">
+        <input type="password" name="password" placeholder="Password" class="formControl"
+        formControlName="password" required
+          autocomplete="on" 
+          />
+      </div>
+      <ng-container *ngIf="form.get('passwordsGroup')?.get('password')?.touched">
+        <p class="error" *ngIf="form.get('passwordsGroup')?.get('password')?.errors?.['required']">
+          Password is required!
+        </p>
+        <p class="error" *ngIf="form.get('passwordsGroup')?.get('password')?.errors?.['minlength']">
+          Password must be at least {{form.get('passwordsGroup')?.get('password')?.errors?.['minlength']["requiredLength"]}} characters!
+        </p>
+        <!-- {{form.get('passwordsGroup')?.get('password')?.errors | json}} -->
+      </ng-container>
+      <div class="input-field">
+        <input type="password" name="rePassword" placeholder="Repeat password" class="formControl"
+        formControlName="rePassword" 
+          autocomplete="on" 
+          />
+      </div>
+      <ng-container *ngIf="form.get('passwordsGroup')?.get('rePassword')?.touched">
+       <p class="error" *ngIf="form.get('passwordsGroup')?.errors?.['matchPasswordsValidator']">
+          Repeat Password does not match password!
+        </p>
+      </ng-container>
     </ng-container>
     <div class="button-field">
       <button type="submit" [style]="{ backgroundColor: form.invalid ? 'grey' : 'brown' }" [disabled]="form.invalid">

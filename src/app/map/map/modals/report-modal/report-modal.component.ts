@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ApiService } from 'src/app/api.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-modal',
@@ -18,8 +19,17 @@ export class ReportModalComponent {
 
   constructor(public activeModal: NgbActiveModal,
     private apiService: ApiService,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthService) { }
 
+  get isLoggedIn() {
+    return this.authService.isLoggedIn;
+  }
+
+  get isAuthor() {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    return user.uid === this.data[1].author;
+  }
 
   passBack() {
     this.passEntry.emit(this.data);

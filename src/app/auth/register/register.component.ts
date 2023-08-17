@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -18,8 +17,8 @@ export class RegisterComponent {
   form = this.fb.group({
     firstName: ["", [Validators.required]],
     lastName: ["", [Validators.required]],
-    email: ["", [Validators.required], [Validators.pattern(this.emailPattern)]],
-    phone: ["", Validators.required],
+    email: ["", [Validators.required, Validators.pattern(this.emailPattern)]],
+    phone: ["", [Validators.required]],
     passwordsGroup: this.fb.group(
       {
         password: ["", [Validators.required, Validators.minLength(6)]],
@@ -39,7 +38,8 @@ export class RegisterComponent {
 
   onRegister(){
     const { firstName, lastName, email, phone, passwordsGroup: {password} = {}} = this.form.value;
-    this.authService.Register(firstName, lastName, email, phone, password);
+    const fullName = firstName.concat(" ", lastName);
+    this.authService.Register(fullName, email, phone, password);
     this.router.navigate(["/home"])
   }
 

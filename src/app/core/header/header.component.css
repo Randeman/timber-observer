@@ -75,6 +75,12 @@ nav {
     background-color:goldenrod ;
 }
 
+.nav-icon-links p {
+    padding: 2px 6px;
+    margin: 0;
+    
+}
+
 .nav-icon-links i {
     display: block;
     margin-top: 2px;

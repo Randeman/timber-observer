@@ -46,11 +46,14 @@
       </tbody>
     </table>
   </div>
-  <div class="access">
-    <button (click)="onEdit(data)">Edit</button>
-    <button (click)="onDelete(data[0])">Delete</button>
-  </div>
-  <!-- <p>{{data | json}}</p> -->
+  <ng-container *ngIf="isLoggedIn">
+    <div class="access" *ngIf="isAuthor">
+      <button (click)="onEdit(data)">Edit</button>
+      <button (click)="onDelete(data[0])">Delete</button>
+    </div>
+    <!-- <p>{{data | json}}</p> -->
+
+  </ng-container>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="passBack()">Close</button>

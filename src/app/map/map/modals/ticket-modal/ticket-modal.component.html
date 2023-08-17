@@ -75,7 +75,7 @@
       </tbody>
     </table>
   </div>
-  <div class="ins-container">
+  <div class="ins-container" *ngIf="isLoggedIn">
     <app-loader *ngIf="isLoading"></app-loader>
     <div *ngIf="!isLoading" [innerHTML]="insurance" class="ins"></div>
   </div>

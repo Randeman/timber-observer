@@ -8,15 +8,19 @@
     </div>
     <nav>
         <div class="nav-icon-links">
-            <a routerLink="/my-observer"><i class="fa-solid fa-magnifying-glass"></i>Моят наблюдател</a>
-            <a routerLink="/auth/login"><i class="fa-solid fa-user-check"></i>Вход</a>
-            <a routerLink="/auth/register"><i class="fa-solid fa-user-pen"></i>Регистрация</a>
-            <a routerLink="/auth/logout"><i class="fa-solid fa-user-slash"></i>Изход</a>
+            <ng-container *ngIf="isLoggedIn">
+                <a routerLink="/my-observer"><i class="fa-solid fa-user"></i>{{userFullName}}'s profile</a>
+                <a routerLink="/auth/logout"><i class="fa-solid fa-user-slash"></i>Logout</a>
+            </ng-container>
+            <ng-container *ngIf="!isLoggedIn">
+                <a routerLink="/auth/login"><i class="fa-solid fa-user-check"></i>Login</a>
+                <a routerLink="/auth/register"><i class="fa-solid fa-user-pen"></i>Register</a>
+            </ng-container>
         </div>
         <div class="nav-links">
-            <a routerLink="/">Начало</a>
-            <a routerLink="/observer">Наблюдател</a>
-            <a routerLink="/reports/report/create">Подай сигнал</a>
+            <a routerLink="/">HOME</a>
+            <a routerLink="/observer">OBSERVER</a>
+            <a *ngIf="isLoggedIn" routerLink="/reports/report/create">REPORT</a>
         </div>
     </nav>
 </header>

@@ -15,7 +15,7 @@ import { TicketModalComponent } from './modals/ticket-modal/ticket-modal.compone
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { MAP_CONSTANTS } from '../map-constants';
-import { ReportModalComponent } from './report-modal/report-modal.component';
+import { ReportModalComponent } from './modals/report-modal/report-modal.component';
 
 const center: number[] = fromLonLat(MAP_CONSTANTS.center);
 const zoom: number = MAP_CONSTANTS.zoom;
