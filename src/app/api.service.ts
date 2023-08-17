@@ -4,9 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, mergeAll, mergeMap, take, toArray, delay } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { environment } from "../environments/environment"
 
-const databaseURL = environment.firebase.databaseURL;
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +41,7 @@ export class ApiService implements OnDestroy {
 
   storeTickets(id: string, data: any) {
     this.sub = this.http.put(
-      `${databaseURL}/e_tickets/${id}.json`,
+      `databaseURL/e_tickets/${id}.json`,
       { ...data }).subscribe();
 
   }
@@ -68,7 +66,7 @@ export class ApiService implements OnDestroy {
   storeReport(reportData) {
     
     this.sub = this.http.post(
-        `${databaseURL}/reports/.json`,
+        `databaseURL/reports/.json`,
         { ...reportData }).subscribe();
 
   }
@@ -76,7 +74,7 @@ export class ApiService implements OnDestroy {
   editReport(id, reportData) {
     
     this.sub = this.http.put(
-        `${databaseURL}/reports/${id}/.json`,
+        `databaseURL/reports/${id}/.json`,
         { ...reportData }).subscribe();
 
   }
@@ -84,17 +82,17 @@ export class ApiService implements OnDestroy {
 
   getReports() {
     return this.http.get(
-      `${databaseURL}/reports/.json`);
+      `databaseURL/reports/.json`);
   }
 
   getReport(id) {
     return this.http.get(
-      `${databaseURL}/reports/${id}/.json`);
+      `databaseURL/reports/${id}/.json`);
   }
 
   deleteReport(id) {
     this.sub = this.http.delete(
-      `${databaseURL}/reports/${id}/.json`
+      `databaseURL/reports/${id}/.json`
     ).subscribe()
   }
 

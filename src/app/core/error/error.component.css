@@ -1,0 +1,30 @@
+.error-message {
+    position: fixed;
+    z-index: 110;
+    left: 25%;
+    right: 25%;
+    top: 8%;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    color: rgb(255, 255, 255);
+    font-style: italic;
+    text-decoration: underline;
+    box-shadow: 0 2px 5px rgb(204, 204, 204);
+    background-color: rgba(238, 74, 74, 0.6);
+}
+
+.error-delete {
+    display: block;
+    background-color: brown;
+    color: white;
+    cursor: pointer;
+    padding: 3px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    border-radius: 50%;
+}
+
+.error-delete i {
+    display: block;
+}

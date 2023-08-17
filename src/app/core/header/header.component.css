@@ -68,6 +68,7 @@ nav {
     color: initial;
     text-decoration: none;
     padding: 2px 6px;
+    position: relative;
 }
 
 .nav-icon-links a:hover,
@@ -75,14 +76,22 @@ nav {
     background-color:goldenrod ;
 }
 
-.nav-icon-links p {
-    padding: 2px 6px;
-    margin: 0;
-    
-}
-
 .nav-icon-links i {
     display: block;
     margin-top: 2px;
     font-weight: bold;
 }
+
+.nav-icon-links .flash {
+    color: cornflowerblue;
+    font-size: 0.5em;
+    position: absolute;
+    top: 1px;
+    left: 55%;
+    right: 45%;
+    animation: flashing 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;  
+  }
+  @keyframes flashing {  
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }

@@ -12,6 +12,7 @@ import { ReportModule } from './report/report.module';
 import { HomeComponent } from './home/home.component';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
+import { AppInterceptorProvider } from './app.interceptor';
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import { AuthModule } from './auth/auth.module';
     ReportModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [AppInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

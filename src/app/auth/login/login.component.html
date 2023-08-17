@@ -15,7 +15,7 @@
                 </ng-container>
                 <div class="input-field">
                     <input type="password" name="password" class="formControl" placeholder="Password" ngModel #inputPassword="ngModel"
-                    autocomplete="on"  minlength="6" required />
+                    autocomplete="on" required />
                 </div>
                 <ng-container *ngIf="inputPassword.touched">
                     <p class="error" *ngIf="inputPassword.errors?.['required']">

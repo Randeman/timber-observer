@@ -17,6 +17,8 @@ export class LoginComponent {
   ) { }
 
   onLogin(form: NgForm){
+  
     this.authService.Login(form.value.email, form.value.password);
+  
   }
 }

@@ -5,9 +5,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from './User';
-import { environment } from "../../environments/environment"
+import { ErrorService } from '../core/error/error.service';
 
-const databaseURL = environment.firebase.databaseURL;
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +19,15 @@ export class AuthService {
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private errorService: ErrorService
   ) {
-
     this.setUser();
   }
 
   Login(email: string, password: string) {
-    return this.afAuth
+    
+    this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
         this.SetUserData(result.user);
@@ -38,25 +38,29 @@ export class AuthService {
         });
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.errorService.setError(error);
       });
+
+ 
   }
 
   Register(fullName, email, phone, password) {
+
     this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
         this.SetUserData(result.user);
         this.storeUserData(result.user, fullName, phone);
-        return result.user.updateProfile({displayName: fullName}).then(() => {this.setUser()})
-        
-      })
+        return result.user.updateProfile({ displayName: fullName })
+
+      }).then(() => { this.setUser() })
       .catch((error) => {
-        window.alert(error.message);
+        this.errorService.setError(error);
       });
+
   }
 
- 
+
   get isLoggedIn(): boolean {
     const user = JSON.parse(sessionStorage.getItem('user'));
     return user !== null ? true : false;
@@ -78,35 +82,49 @@ export class AuthService {
 
 
   SignOut() {
+
     this.afAuth.signOut().then(() => {
       sessionStorage.removeItem('user');
       this.router.navigate(['home']);
+    })
+    .catch((error) => {
+      this.errorService.setError(error);
     });
+
   }
 
   storeUserData(user: IUser, fullName, phone) {
     this.http.put<IUser>(
-    `${databaseURL}/users/${user.uid}.json`,
-    { id: user.uid, email: user.email, fullName, phone }).subscribe();
+      `databaseURL/users/${user.uid}.json`,
+      { id: user.uid, email: user.email, fullName, phone }).subscribe();
   }
 
-  getUserProfile(){
+  getUserProfile() {
     return this.http.get(
-      `${databaseURL}/users/${this.userData.uid}/.json`)
+      `databaseURL/users/${this.userData.uid}/.json`)
 
   }
 
   setUser() {
-    this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        this.userData = user;
-        sessionStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(sessionStorage.getItem('user')!);
-      } else {
-        sessionStorage.setItem('user', 'null');
-        JSON.parse(sessionStorage.getItem('user')!);
+
+    this.afAuth.authState.subscribe({
+      next: (user) => {
+        if (user) {
+          this.userData = user;
+          sessionStorage.setItem('user', JSON.stringify(this.userData));
+          JSON.parse(sessionStorage.getItem('user')!);
+        } else {
+          sessionStorage.setItem('user', 'null');
+          JSON.parse(sessionStorage.getItem('user')!);
+        }
+      },
+      error(error){
+        this.errorService.setError(error);
       }
     });
+
   }
+
+
 }
 

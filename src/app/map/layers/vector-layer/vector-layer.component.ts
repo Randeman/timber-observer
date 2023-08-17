@@ -48,7 +48,7 @@ export class VectorLayerComponent implements OnInit, OnDestroy {
           }
         )
       },
-      error: (err: Error) => {console.error(err)},
+      // error: (err: Error) => {console.error(err)},
       complete: () => {this.isLoading = false}
     })
 
@@ -74,7 +74,7 @@ export class VectorLayerComponent implements OnInit, OnDestroy {
       }
     )
   },
-  error: (err: Error) => {console.error(err)},
+  // error: (err: Error) => {console.error(err)},
   complete: () => {this.isLoading = false}
 })
  
