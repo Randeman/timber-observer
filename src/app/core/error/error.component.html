@@ -1,6 +1,7 @@
 <ng-container *ngIf="isVisible">
     <p class="error-message" *ngIf="!!errMsg">{{errMsg}}
         <span class="error-delete" (click)="setInvisible()"><i class="fa-solid fa-xmark"></i></span>
+        <span class="timer"></span>
     </p>
 </ng-container>
 

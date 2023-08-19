@@ -39,6 +39,12 @@ export class ApiService implements OnDestroy {
 
   }
 
+  getStoredTickets() {
+    return this.http.get(
+      `databaseURL/e_tickets/.json`);
+
+  }
+
   storeTickets(id: string, data: any) {
     this.sub = this.http.put(
       `databaseURL/e_tickets/${id}.json`,

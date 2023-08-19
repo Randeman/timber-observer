@@ -13,12 +13,11 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
   ) { }
 
   onLogin(form: NgForm){
   
-    this.authService.Login(form.value.email, form.value.password);
+    this.authService.login(form.value.email, form.value.password);
   
   }
 }

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { FileUpload } from '../file.upload';
 import { FileUploadService } from '../file.upload.service';
+import { REPORT_CONSTANTS } from "src/app/report/report-constants";
 import { delay } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 
@@ -23,7 +24,7 @@ export class ReportComponent implements OnDestroy {
   setModifyInteraction = new EventEmitter<null>;
   removeInteractions = new EventEmitter<null>;
   currentFileUpload?: FileUpload;
-  violationOptions: Array<string[]> = [['logging', "Illegal Logging"], ['transport', "Illegal Transportation"], ['trash', "Pollution"], ['other', "Other"]];
+  violationOptions: Array<string[]> = Object.entries(REPORT_CONSTANTS.violationOptions);
   urls: string[] = [];
   files: File[] = [];
   district: string;
@@ -85,7 +86,7 @@ export class ReportComponent implements OnDestroy {
       })
     }
 
-    this.router.navigate(['/observer']);
+    this.router.navigate(['/home']);
   }
 
   detectFiles(event) {

@@ -37,11 +37,11 @@
         </tr>
         <tr>
           <td>Подаден на</td>
-          <td>{{data[1].createdAt}}</td>
+          <td>{{data[1].createdAt | formatedData}}</td>
         </tr>
-        <tr *ngIf="data[1].updatedAt !== data[1].createdAt">
+        <tr *ngIf="(data[1].updatedAt | slice: 0:-8) !== (data[1].createdAt | slice: 0:-8)">
           <td>Редактиран на</td>
-          <td >{{data[1].updatedAt}}</td>
+          <td >{{data[1].updatedAt | formatedData}}</td>
         </tr>
       </tbody>
     </table>

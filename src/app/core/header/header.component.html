@@ -10,7 +10,7 @@
     <nav>
         <div class="nav-icon-links">
             <ng-container *ngIf="isLoggedIn">
-                <a routerLink="/my-observer"><i class="fa-solid fa-user"></i>{{userFullName}}'s profile<i class="fa fa-circle flash"></i></a>
+                <a routerLink="/auth/profile"><i class="fa-solid fa-user"></i>{{userFullName}}'s profile<i class="fa fa-circle flash"></i></a>
                 <a routerLink="/auth/logout"><i class="fa-solid fa-user-slash"></i>Logout</a>
             </ng-container>
             <ng-container *ngIf="!isLoggedIn">

@@ -23,6 +23,7 @@
     "@popperjs/core": "^2.11.6",
     "@types/geojson": "^7946.0.10",
     "bootstrap": "^5.2.3",
+    "chart.js": "^4.3.3",
     "firebase": "^9.23.0",
     "moment": "^2.29.4",
     "ol": "^7.4.0",

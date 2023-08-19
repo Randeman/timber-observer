@@ -11,7 +11,7 @@ export class LogoutComponent {
   constructor(
     private authService: AuthService
     ) {
-      this.authService.SignOut();
+      this.authService.signOut();
 
     }
 

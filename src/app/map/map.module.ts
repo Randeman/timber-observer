@@ -4,7 +4,6 @@ import { MapComponent } from './map/map.component';
 import { VectorLayerComponent } from './layers/vector-layer/vector-layer.component';
 import { ControlsComponent } from './controls/controls.component';
 import { SharedModule } from '../shared/shared.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TicketModalComponent } from './map/modals/ticket-modal/ticket-modal.component';
 import { ReportModalComponent } from './map/modals/report-modal/report-modal.component';
 
@@ -14,10 +13,9 @@ import { ReportModalComponent } from './map/modals/report-modal/report-modal.com
   declarations: [MapComponent, VectorLayerComponent, ControlsComponent, TicketModalComponent, ReportModalComponent],
   imports: [
     CommonModule,
-    SharedModule,
-    NgbModule
+    SharedModule
   ],
-  exports: [MapComponent, VectorLayerComponent],
+  exports: [MapComponent, VectorLayerComponent, TicketModalComponent],
   bootstrap: [TicketModalComponent, ReportModalComponent]
 
 })

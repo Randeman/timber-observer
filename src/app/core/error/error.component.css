@@ -28,3 +28,37 @@
 .error-delete i {
     display: block;
 }
+
+.error-message {
+    -moz-animation: cssAnimation 0s ease-in 10s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 10s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 10s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 10s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+    to {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+}
+
+.timer {
+    display: block;
+    margin: 2px 0;
+    height: 2px;
+    background-color: rgb(255, 0, 0);
+    animation: collapse ease-in 10s forwards;  
+}
+
+@keyframes collapse {  
+    from { width: 0%; }
+    to { width: 100%; }
+}

@@ -5,6 +5,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ApiService } from 'src/app/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { REPORT_CONSTANTS } from "src/app/report/report-constants";
+
 
 @Component({
   selector: 'app-modal',
@@ -15,7 +17,7 @@ export class ReportModalComponent {
 
   @Input() public data: any;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
-  violationOptions: any = {logging: 'Незаконен дърводобив', transport: 'Незаконен транспорт', trash: 'Замърсяване', other: 'Друго'};
+  violationOptions = REPORT_CONSTANTS.violationOptions;
 
   constructor(public activeModal: NgbActiveModal,
     private apiService: ApiService,

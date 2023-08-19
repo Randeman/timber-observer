@@ -38,8 +38,7 @@ export class RegisterComponent {
 
   onRegister(){
     const { firstName, lastName, email, phone, passwordsGroup: {password} = {}} = this.form.value;
-    const fullName = firstName.concat(" ", lastName);
-    this.authService.Register(fullName, email, phone, password);
+    this.authService.register(firstName, lastName, email, phone, password);
     this.router.navigate(["/home"])
   }
 

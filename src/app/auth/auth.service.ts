@@ -25,12 +25,12 @@ export class AuthService {
     this.setUser();
   }
 
-  Login(email: string, password: string) {
+  login(email: string, password: string) {
     
     this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.SetUserData(result.user);
+        this.setUserData(result.user);
         this.afAuth.authState.subscribe((user) => {
           if (user) {
             this.router.navigate(['home']);
@@ -44,14 +44,14 @@ export class AuthService {
  
   }
 
-  Register(fullName, email, phone, password) {
+  register(firstName, lastName, email, phone, password) {
 
     this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.SetUserData(result.user);
-        this.storeUserData(result.user, fullName, phone);
-        return result.user.updateProfile({ displayName: fullName })
+        this.setUserData(result.user);
+        this.storeUserData(result.user, firstName, lastName, phone);
+        return result.user.updateProfile({ displayName: firstName.concat(" ", lastName) })
 
       }).then(() => { this.setUser() })
       .catch((error) => {
@@ -67,7 +67,7 @@ export class AuthService {
   }
 
 
-  SetUserData(user: any) {
+  setUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
@@ -81,7 +81,7 @@ export class AuthService {
   }
 
 
-  SignOut() {
+  signOut() {
 
     this.afAuth.signOut().then(() => {
       sessionStorage.removeItem('user');
@@ -93,15 +93,33 @@ export class AuthService {
 
   }
 
-  storeUserData(user: IUser, fullName, phone) {
+  storeUserData(user: IUser, firstName, lastName, phone, ...args) {
     this.http.put<IUser>(
       `databaseURL/users/${user.uid}.json`,
-      { id: user.uid, email: user.email, fullName, phone }).subscribe();
+      { id: user.uid, email: user.email, firstName, lastName, phone, trucks: [...args] }).subscribe();
   }
 
   getUserProfile() {
+    const user = JSON.parse(sessionStorage.getItem('user'));
     return this.http.get(
-      `databaseURL/users/${this.userData.uid}/.json`)
+      `databaseURL/users/${user.uid}/.json`)
+
+  }
+
+  editUserProfile(firstName, lastName, phone, truck1, truck2, truck3, truck4) {
+
+    this.afAuth.user
+      .subscribe({
+        next: (user) => {
+        this.setUserData(user);
+        this.storeUserData(user, firstName, lastName, phone, truck1, truck2, truck3, truck4);
+        user.updateProfile({ displayName: firstName.concat(" ", lastName) })
+        .then(() => { this.setUser() })
+        },
+        error: (err) => this.errorService.setError(err)
+        
+      })
+
 
   }
 

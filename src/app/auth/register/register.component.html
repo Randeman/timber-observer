@@ -3,7 +3,7 @@
   <div class="register-panel">
     <h3>Register</h3>
     <div class="input-field">
-      <input type="text" name="firstName" class="formControl" placeholder="First Name" 
+      <input type="text" name="firstName" placeholder="First Name" 
       formControlName="firstName"
         required />
     </div>
@@ -13,7 +13,7 @@
       </p>
     </ng-container>
     <div class="input-field">
-      <input type="text" name="lastName" class="formControl" placeholder="Last Name" 
+      <input type="text" name="lastName"  placeholder="Last Name" 
       formControlName="lastName"
         required />
     </div>
@@ -23,7 +23,7 @@
       </p>
     </ng-container>
     <div class="input-field">
-      <input type="text" name="phone" class="formControl" placeholder="+359..." 
+      <input type="text" name="phone"  placeholder="+359..." 
       formControlName="phone"
         required />
     </div>
@@ -33,7 +33,7 @@
       </p>
     </ng-container>
     <div class="input-field">
-      <input type="email" name="email" placeholder="Email" class="formControl"
+      <input type="email" name="email" placeholder="Email" 
       formControlName="email" required />
     </div>
     <ng-container *ngIf="form.get('email')?.touched">
@@ -46,7 +46,7 @@
     </ng-container>
     <ng-container formGroupName="passwordsGroup">
       <div class="input-field">
-        <input type="password" name="password" placeholder="Password" class="formControl"
+        <input type="password" name="password" placeholder="Password" 
         formControlName="password" required
           autocomplete="on" 
           />
@@ -61,7 +61,7 @@
         <!-- {{form.get('passwordsGroup')?.get('password')?.errors | json}} -->
       </ng-container>
       <div class="input-field">
-        <input type="password" name="rePassword" placeholder="Repeat password" class="formControl"
+        <input type="password" name="rePassword" placeholder="Repeat password" 
         formControlName="rePassword" 
           autocomplete="on" 
           />

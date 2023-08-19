@@ -1,2 +1,25 @@
-<app-map [viewVector]="viewVector"></app-map>
+<div class="container">
+
+        
+        <div class="canvas-container">
+            <app-loader *ngIf="isLoadingWood"></app-loader>
+            <canvas id="typeWood" class="canvas">{{chart}}</canvas>
+          </div>
+
+
+        
+        <div class="canvas-container">
+            <app-loader *ngIf="isLoadingCategory"></app-loader>
+            <canvas id="categoryWood" class="canvas">{{chart}}</canvas>
+          </div>
+
+
+     
+        <div class="canvas-container">
+            <app-loader *ngIf="isLoadingOwner"></app-loader>
+            <canvas id="owner" class="canvas">{{chart}}</canvas>
+          </div>
+
+
+</div>
 
