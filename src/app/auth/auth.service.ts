@@ -93,10 +93,10 @@ export class AuthService {
 
   }
 
-  storeUserData(user: IUser, firstName, lastName, phone, ...args) {
+  storeUserData(user: IUser, firstName, lastName, phone, trucks?) {
     this.http.put<IUser>(
       `databaseURL/users/${user.uid}.json`,
-      { id: user.uid, email: user.email, firstName, lastName, phone, trucks: [...args] }).subscribe();
+      { id: user.uid, email: user.email, firstName, lastName, phone, trucks }).subscribe();
   }
 
   getUserProfile() {
@@ -106,13 +106,13 @@ export class AuthService {
 
   }
 
-  editUserProfile(firstName, lastName, phone, truck1, truck2, truck3, truck4) {
+  editUserProfile(firstName, lastName, phone, trucks) {
 
     this.afAuth.user
       .subscribe({
         next: (user) => {
         this.setUserData(user);
-        this.storeUserData(user, firstName, lastName, phone, truck1, truck2, truck3, truck4);
+        this.storeUserData(user, firstName, lastName, phone, trucks);
         user.updateProfile({ displayName: firstName.concat(" ", lastName) })
         .then(() => { this.setUser() })
         },

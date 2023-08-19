@@ -26,17 +26,7 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authService.getUserProfile()
-      .subscribe(data => {
-        this.userData = data;
-        if (this.userData?.trucks) {
-          this.trucks = [...this.trucks, ...Object.values(this.userData?.trucks)];
-          this.onDefaultSearch(this.trucks);
-
-        }
-      }
-      );
-
+    this.getUserInfo();
   }
 
   changeEditMode() {
@@ -46,9 +36,9 @@ export class ProfileComponent implements OnInit {
   onEditProfile(form: NgForm): void {
     if (form.invalid) { return };
     const { firstName, lastName, phone, truck1, truck2, truck3, truck4 } = form.value;
-    this.authService.editUserProfile(firstName, lastName, phone, truck1, truck2, truck3, truck4);
-    this.changeEditMode();
-    this.router.navigate(['/auth/profile']);
+    const trucks = [truck1, truck2, truck3, truck4].filter( t => t !== "");
+    this.authService.editUserProfile(firstName, lastName, phone, trucks);
+    this.getUserInfo();
   }
 
   onSearch(formSearch: NgForm): void {
@@ -62,13 +52,11 @@ export class ProfileComponent implements OnInit {
           && (ticket.podelenie?.toLowerCase().includes(sender?.toLowerCase())
             || ticket.issued?.toLowerCase().includes(sender?.toLowerCase()))
           && ticket.destination?.toLowerCase().includes(destination?.toLowerCase())
-
         )
         .sort((a, b) => b.id - a.id)
-        .slice(0, 25)
+        .slice(0, 25);
     })
 
-    this.router.navigate(['/auth/profile']);
   }
 
   onDefaultSearch(trucks): void {
@@ -76,26 +64,35 @@ export class ProfileComponent implements OnInit {
     const [truck1, truck2, truck3, truck4] = trucks;
     this.apiService.getStoredTickets().subscribe(data => {
       this.tickets = Object.values(data)
-        .map(ticket => {
-          if (
-            (ticket.vehicle_plates_number?.toLowerCase().includes(truck1?.toLowerCase() || "") || ticket.trailer_plates_number?.toLowerCase().includes(truck1?.toLowerCase() || ""))
-            || (ticket.vehicle_plates_number?.toLowerCase().includes(truck2?.toLowerCase() || "") || ticket.trailer_plates_number?.toLowerCase().includes(truck2?.toLowerCase() || ""))
-            || (ticket.vehicle_plates_number?.toLowerCase().includes(truck3?.toLowerCase() || "") || ticket.trailer_plates_number?.toLowerCase().includes(truck3?.toLowerCase() || ""))
-            || (ticket.vehicle_plates_number?.toLowerCase().includes(truck4?.toLowerCase() || "") || ticket.trailer_plates_number?.toLowerCase().includes(truck4?.toLowerCase() || ""))
-          ) {
-            return ticket;
-          }
-        })
+        .filter(ticket => 
+          trucks.some(t => t.toLowerCase() === ticket.vehicle_plates_number?.toLowerCase()
+            || t.toLowerCase() === ticket.trailer_plates_number?.toLowerCase())
+        )
         .sort((a, b) => b.id - a.id)
         .slice(0, 25)
     })
 
-    this.router.navigate(['/auth/profile']);
   }
 
   onOpenTicket(ticket) {
     const open = this.modalService.open(TicketModalComponent);
     open.componentInstance.data = ticket;
+  }
+
+  getUserInfo() {
+    this.authService.getUserProfile()
+      .subscribe(data => {
+        this.userData = data;
+        if (this.userData?.trucks) {
+          this.trucks = [...this.trucks, ...Object.values(this.userData?.trucks)];
+          this.onDefaultSearch(this.trucks);
+        }
+        if(this.isEditable){
+          this.changeEditMode();
+        }
+      }
+      );
+
   }
 
 }
