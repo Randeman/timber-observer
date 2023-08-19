@@ -2,8 +2,9 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeAll, mergeMap, take, toArray, delay } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { ErrorService } from './core/error/error.service';
 
 
 @Injectable({
@@ -12,9 +13,12 @@ import * as moment from 'moment';
 export class ApiService implements OnDestroy {
 
   sub!: Subscription;
+  isAuthor: boolean;
+  reportData;
 
   constructor(private http: HttpClient,
-    private db: AngularFireDatabase,) { }
+    private db: AngularFireDatabase,
+    private errorService: ErrorService) { }
 
 
   private getTickets(): any {
@@ -101,6 +105,33 @@ export class ApiService implements OnDestroy {
       `databaseURL/reports/${id}/.json`
     ).subscribe()
   }
+
+  isAuthorIn(id): Observable<boolean> {
+    return new Observable((o) => {
+      try {
+       const user = JSON.parse(sessionStorage.getItem('user'));
+       this.getReport(id).subscribe((data) => 
+       {
+        this.reportData = data;
+      }
+       );
+       if (user.uid === this.reportData.author) {
+         this.isAuthor = true;
+         o.next(true);
+       } else {
+         this.isAuthor = false;
+         o.next(false);
+       }
+      } catch (err) {
+        this.errorService.setError(err)
+        o.next(false);
+     }
+   });
+  }
+
+  getIsAuthorIn(){
+    return this.isAuthor;
+}
 
 
   ngOnDestroy(): void {

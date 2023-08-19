@@ -126,11 +126,11 @@
                     <img src="../../../assets/images/no-image.jpg" alt="picture" *ngIf="!ticket.images">
                 </div>
                 <div class="ticket-content">
-                    <p>Билет № {{ticket.time | slice: 0:-15}}...</p>
-                    <p>Превозно средство {{ticket.vehicle_plates_number}}<span *ngIf="!!ticket.trailer_plates_number">, ремарке
+                    <p><span class="bolder">Билет № {{ticket.time | slice: 0:-15}}...</span></p>
+                    <p><span class="bolder">Превозно средство:</span> {{ticket.vehicle_plates_number}}<span *ngIf="!!ticket.trailer_plates_number">, ремарке
                             {{ticket.trailer_plates_number}}</span></p>
-                    <p>Издаден от: {{ticket.issued}}, {{ticket.podelenie}}</p>
-                    <p>Място на доставка: {{ticket.destination}}</p>
+                    <p><span class="bolder">Издаден от:</span> {{ticket.issued}}, {{ticket.podelenie}}</p>
+                    <p><span class="bolder">Място на доставка:</span> {{ticket.destination}}</p>
                 </div>
             </div>
         </ng-container>

@@ -5,6 +5,7 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { AuthModule } from '../auth/auth.module';
 import { ErrorComponent } from './error/error.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 
@@ -12,13 +13,14 @@ import { ErrorComponent } from './error/error.component';
   declarations: [
     HeaderComponent,
     FooterComponent,
-    ErrorComponent
+    ErrorComponent,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     AuthModule
   ],
-  exports: [HeaderComponent, FooterComponent]
+  exports: [HeaderComponent, FooterComponent, NotFoundComponent]
 })
 export class CoreModule { }

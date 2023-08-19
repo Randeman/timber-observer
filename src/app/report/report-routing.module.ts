@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReportComponent } from './report/report.component';
 import { EditReportComponent } from './edit-report/edit-report.component';
+import { isAuthorGuard } from '../core/guards/isAuthor';
 
 const routes: Routes = [
 
@@ -14,7 +15,8 @@ const routes: Routes = [
       },
       {
         path: ":reportId",
-        component: EditReportComponent
+        component: EditReportComponent,
+        canActivate: [isAuthorGuard]
       }
 
     ]

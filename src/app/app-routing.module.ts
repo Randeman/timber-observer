@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ObserverComponent } from './observer/observer.component';
+import { NotFoundComponent } from './core/not-found/not-found.component';
+import { hasUserGuard } from './core/guards/hasUser';
 
 const routes: Routes = [
   {
@@ -23,12 +25,13 @@ const routes: Routes = [
   },
   {
     path: "reports",
-    loadChildren: () => import("./report/report.module").then(m => m.ReportModule)
+    loadChildren: () => import("./report/report.module").then(m => m.ReportModule),
+    canActivate: [hasUserGuard]
   },
-  // {
-  //   path: "**",
-  //   component: NotFoundComponent
-  // },
+  {
+    path: "**",
+    component: NotFoundComponent
+  },
 
 ];
 
