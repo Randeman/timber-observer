@@ -30,7 +30,7 @@ export class ReportModalComponent {
 
   get isAuthor() {
     const user = JSON.parse(sessionStorage.getItem('user'));
-    return user.uid === this.data[1].author;
+    return user.uid === this.data[1]?.author;
   }
 
   passBack() {

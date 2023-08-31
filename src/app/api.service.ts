@@ -115,7 +115,7 @@ export class ApiService implements OnDestroy {
         this.reportData = data;
       }
        );
-       if (user.uid === this.reportData.author) {
+       if (user.uid === this.reportData?.author) {
          this.isAuthor = true;
          o.next(true);
        } else {
