@@ -47,6 +47,12 @@ form select {
     padding: 5px 15px;
 }
 
+.buttons-field  {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
 .images {
     width: 100%;
     display: flex;

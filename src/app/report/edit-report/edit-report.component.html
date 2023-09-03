@@ -4,9 +4,14 @@
 <form #form="ngForm" *ngIf="reportData" (ngSubmit)="onReport(form)">
     <div class="form-header">
         <h2>Сигнализирай за нарушение в горите</h2>
-        <button [style]="{ backgroundColor: form.invalid ? 'grey' : 'brown' }" [disabled]="form.invalid">
-            ЗАПАЗИ
-        </button>
+        <div class="buttons-field">
+            <button type="button" [style]="{ backgroundColor: 'brown' }" (click)="onCancel()" >
+                ОТКАЖИ
+            </button>
+            <button [style]="{ backgroundColor: form.invalid ? 'grey' : 'brown' }" [disabled]="form.invalid">
+                ЗАПАЗИ
+            </button>
+        </div>
     </div>
     <!-- {{reportData | json}} -->
     <div class="images">

@@ -96,22 +96,23 @@ export class EditReportComponent implements OnInit, OnDestroy {
     if(!!this.files.length){
       of(this.upload()).pipe(
         delay(10000),
-      ).subscribe(() =>
+      ).subscribe(() => {
         this.apiService.editReport(this.reportId, {
           gps_lat, gps_lon, violation, description, district, municipality, land, 
           images: [...this.uploadService.uploadUrls, ...currentUrls], author: user?.uid,
           createdAt: this.reportData.createdAt, updatedAt: new Date().toISOString()
         })
-      );
+        this.router.navigate(['/home']);
+      })
     } else{
       this.apiService.editReport(this.reportId, {
         gps_lat, gps_lon, violation, description, district, municipality, land, 
         images: this.urls, author: user?.uid,
         createdAt: this.reportData.createdAt, updatedAt: new Date().toISOString()
       })
+      this.router.navigate(['/home']);
     }
 
-    this.router.navigate(['/home']);
   }
 
   detectFiles(event) {
@@ -153,6 +154,10 @@ export class EditReportComponent implements OnInit, OnDestroy {
     const figure = `{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[${lon},${lat}]},"properties":null}]}`
     const feature = new GeoJSON().readFeatures(JSON.parse(figure), { featureProjection: get("EPSG:3857") } as any);
     return feature;
+  }
+
+  onCancel() {
+    this.router.navigate(['/home']);
   }
 
   ngOnDestroy(): void {
