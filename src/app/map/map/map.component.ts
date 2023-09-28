@@ -16,6 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { MAP_CONSTANTS } from '../map-constants';
 import { ReportModalComponent } from './modals/report-modal/report-modal.component';
+import { Router } from '@angular/router';
 
 const center: number[] = fromLonLat(MAP_CONSTANTS.center);
 const zoom: number = MAP_CONSTANTS.zoom;
@@ -65,7 +66,8 @@ export class MapComponent implements OnInit {
     this.coordinates.emit(value)
   }
 
-  constructor(public modalService: NgbModal) { }
+  constructor(public modalService: NgbModal,
+    private router: Router) { }
 
   ngOnInit(): void {
 
@@ -102,6 +104,16 @@ export class MapComponent implements OnInit {
         }
         else {
         open = this.modalService.open(ReportModalComponent);
+        open.result.then(data => {
+          if (!!data) {
+            this.map.getAllLayers().slice(1).forEach(layer => layer.getFeatures(evt.pixel)
+            .then(features => {
+              if(!!features[0] && features[0].getGeometry() === data.geometry){
+                this.map.removeLayer(layer)
+              }
+            }))
+          }
+        }, (reason) => {});
       }
 
       open.componentInstance.data = featureProperties;
@@ -221,7 +233,5 @@ export class MapComponent implements OnInit {
     this.setCoordinates("");
 
   }
-
-  
 
 }

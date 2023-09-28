@@ -31,7 +31,7 @@ export class ReportComponent implements OnDestroy {
   municipality: string;
   land: string;
   id: any;
-
+  isLoading: boolean = false;
 
   setCoordinates(coordinates: string) {
     this.coordinates = coordinates;
@@ -69,24 +69,24 @@ export class ReportComponent implements OnDestroy {
     const [gps_lat, gps_lon] = coordinates.split(", ");
 
     if(!!this.files.length){
-      of(this.upload()).pipe(
-        delay(20000),
-      ).subscribe(() =>
+      this.isLoading = true;
+      this.uploadService.pushFileToStorage(this.files).pipe(
+        delay(1000)
+      ).subscribe({complete: () =>
         this.apiService.storeReport({
           gps_lat, gps_lon, violation, description, district, municipality, land, 
           images: this.uploadService.uploadUrls, author: user.uid,
           createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
-        })
-      );
+        }).subscribe({complete: () => this.router.navigate(['/home'])})
+      });
     } else{
+      this.isLoading = true;
       this.apiService.storeReport({
         gps_lat, gps_lon, violation, description, district, municipality, land, 
-        images: this.uploadService.uploadUrls, author: user.uid,
+        images: [], author: user.uid,
         createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
-      })
+      }).subscribe({complete: () => this.router.navigate(['/home'])})
     }
-
-    this.router.navigate(['/home']);
   }
 
   detectFiles(event) {
@@ -106,14 +106,6 @@ export class ReportComponent implements OnDestroy {
   deleteImage(url: any, index): void {
     this.urls = this.urls.filter((x, i) => x !== url || i !== index);
     this.files = this.files.filter((x, i) => i !== index);
-  }
-
-  upload() {
-    if (this.files) {
-      this.uploadService.pushFileToStorage(this.files);
-    };
-    this.files = [];
-    this.urls = [];
   }
 
   getLocation(coordinates: string) {

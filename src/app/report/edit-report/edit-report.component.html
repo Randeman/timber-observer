@@ -1,3 +1,4 @@
+<app-loader *ngIf="isLoading"></app-loader>
 <app-map [viewVector]="viewVector" [setFeature]="setFeature" (coordinates)="setCoordinates($event)" [setDrawInteraction]="setDrawInteraction"
 [setModifyInteraction]="setModifyInteraction" [removeInteractions]="removeInteractions">
 </app-map>

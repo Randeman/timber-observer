@@ -16,8 +16,8 @@ import { REPORT_CONSTANTS } from "src/app/report/report-constants";
 export class ReportModalComponent {
 
   @Input() public data: any;
-  @Output() passEntry: EventEmitter<any> = new EventEmitter();
   violationOptions = REPORT_CONSTANTS.violationOptions;
+  isLoading: boolean = false;
 
   constructor(public activeModal: NgbActiveModal,
     private apiService: ApiService,
@@ -33,9 +33,8 @@ export class ReportModalComponent {
     return user.uid === this.data[1]?.author;
   }
 
-  passBack() {
-    this.passEntry.emit(this.data);
-    this.activeModal.close(this.data);
+  passBack(data?: any) {
+    this.activeModal.close(data || "");
   }
 
   onEdit(data) {
@@ -43,10 +42,12 @@ export class ReportModalComponent {
     this.router.navigate([`/reports/report/${data[0]}`]);
   }
 
-  onDelete(id) {
-    this.passBack();
-    this.apiService.deleteReport(id);
-    this.router.navigate(['/home']);
+  onDelete(data) {
+    this.isLoading = true;
+    this.apiService.deleteReport(data[0])
+    .subscribe({complete: () => {
+      this.passBack(data);
+    }})
   }
 
   

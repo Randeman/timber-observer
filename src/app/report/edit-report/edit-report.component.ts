@@ -9,8 +9,7 @@ import { ApiService } from 'src/app/api.service';
 import { FileUpload } from '../file.upload';
 import { FileUploadService } from '../file.upload.service';
 import { REPORT_CONSTANTS } from "src/app/report/report-constants";
-import { delay } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-edit-report',
@@ -35,6 +34,7 @@ export class EditReportComponent implements OnInit, OnDestroy {
   district: string;
   municipality: string;
   land: string;
+  isLoading: boolean = false;
 
 
   setCoordinates(coordinates: string) {
@@ -65,22 +65,23 @@ export class EditReportComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private uploadService: FileUploadService) { }
-  
-  
-    ngOnInit(): void {
-      this.reportId = this.activatedRoute.snapshot.params["reportId"];
-      this.apiService.getReport(this.reportId).subscribe({
-        next: data => {
-          this.reportData = data;
-          this.urls = this.reportData.images || [];
-          this.coordinates = this.reportData.gps_lat.concat(', ', this.reportData.gps_lon);
-          this.district = this.reportData.district;
-          this.municipality = this.reportData.municipality;
-          this.land = this.reportData.land;
-          this.setFeature.emit(this.createFeature(this.reportData.gps_lat, this.reportData.gps_lon))
-          this.setModifyInteraction.emit(null);
-          this.interactionMode = !this.interactionMode;
-        }});
+
+
+  ngOnInit(): void {
+    this.reportId = this.activatedRoute.snapshot.params["reportId"];
+    this.apiService.getReport(this.reportId).subscribe({
+      next: data => {
+        this.reportData = data;
+        this.urls = this.reportData.images || [];
+        this.coordinates = this.reportData.gps_lat.concat(', ', this.reportData.gps_lon);
+        this.district = this.reportData.district;
+        this.municipality = this.reportData.municipality;
+        this.land = this.reportData.land;
+        this.setFeature.emit(this.createFeature(this.reportData.gps_lat, this.reportData.gps_lon))
+        this.setModifyInteraction.emit(null);
+        this.interactionMode = !this.interactionMode;
+      }
+    });
 
   }
 
@@ -93,24 +94,24 @@ export class EditReportComponent implements OnInit, OnDestroy {
     const [gps_lat, gps_lon] = coordinates.split(", ");
     const currentUrls = this.urls.slice(0, this.urls.length - this.files.length);
 
-    if(!!this.files.length){
-      of(this.upload()).pipe(
-        delay(10000),
-      ).subscribe(() => {
+    if (!!this.files.length) {
+      this.isLoading = true;
+      this.uploadService.pushFileToStorage(this.files).pipe(
+        delay(1000)
+      ).subscribe({complete: () => {
         this.apiService.editReport(this.reportId, {
-          gps_lat, gps_lon, violation, description, district, municipality, land, 
+          gps_lat, gps_lon, violation, description, district, municipality, land,
           images: [...this.uploadService.uploadUrls, ...currentUrls], author: user?.uid,
           createdAt: this.reportData.createdAt, updatedAt: new Date().toISOString()
-        })
-        this.router.navigate(['/home']);
-      })
-    } else{
+        }).subscribe({complete: () => this.router.navigate(['/home'])})
+      }})
+    } else {
+      this.isLoading = true;
       this.apiService.editReport(this.reportId, {
-        gps_lat, gps_lon, violation, description, district, municipality, land, 
+        gps_lat, gps_lon, violation, description, district, municipality, land,
         images: this.urls, author: user?.uid,
         createdAt: this.reportData.createdAt, updatedAt: new Date().toISOString()
-      })
-      this.router.navigate(['/home']);
+      }).subscribe({complete: () => this.router.navigate(['/home'])})
     }
 
   }
@@ -130,16 +131,9 @@ export class EditReportComponent implements OnInit, OnDestroy {
   }
 
   deleteImage(url: any, index): void {
+    const count = this.urls.length - this.files.length;
     this.urls = this.urls.filter((x, i) => x !== url || i !== index);
-    this.files = this.files.filter((x, i) => i !== index);
-  }
-
-  upload() {
-    if (this.files) {
-      this.uploadService.pushFileToStorage(this.files);
-    };
-    this.files = [];
-    this.urls = [];
+    this.files = this.files.filter((x, i) => i + count !== index);
   }
 
   getLocation(coordinates: string) {
@@ -162,7 +156,6 @@ export class EditReportComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.onDeleteInteractions();
-  
   }
 
 

@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
-import { delay, finalize, map, mergeAll } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { from, finalize, mergeMap } from 'rxjs';
 
 import { FileUpload } from './file.upload';
-import { ApiService } from '../api.service';
 
 
 
@@ -30,15 +28,14 @@ export class FileUploadService {
       return this.currentFileUpload = new FileUpload(f)
     });
 
-    of(uploads).pipe(mergeAll(),
-   
-    map(f => {
+    return from(uploads).pipe(
+    mergeMap(f => {
       const fileName = this.uniquePath(f.file.name);
       const filePath = `${this.basePath}/${fileName}`;
       const storageRef = this.storage.ref(filePath);
       const uploadTask = this.storage.upload(filePath, f.file);
       
-      uploadTask.snapshotChanges().pipe(
+      return uploadTask.snapshotChanges().pipe(
         finalize(() => {
           storageRef.getDownloadURL().subscribe(downloadURL => {
             f.url = downloadURL;
@@ -46,9 +43,9 @@ export class FileUploadService {
             this.saveFileData(f);
           });
         })
-      ).subscribe();
+      );
 
-    })).subscribe();
+    }));
 
   }
 
@@ -72,7 +69,6 @@ export class FileUploadService {
       .then(() => {
         this.deleteFileStorage(fileUpload.name);
       })
-      // .catch(error => console.log(error));
   }
 
   private deleteFileDatabase(key: string): Promise<void> {

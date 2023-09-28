@@ -75,17 +75,17 @@ export class ApiService implements OnDestroy {
 
   storeReport(reportData) {
     
-    this.sub = this.http.post(
+    return this.http.post(
         `databaseURL/reports/.json`,
-        { ...reportData }).subscribe();
+        { ...reportData });
 
   }
 
   editReport(id, reportData) {
     
-    this.sub = this.http.put(
+    return this.http.put(
         `databaseURL/reports/${id}/.json`,
-        { ...reportData }).subscribe();
+        { ...reportData });
 
   }
 
@@ -101,9 +101,9 @@ export class ApiService implements OnDestroy {
   }
 
   deleteReport(id) {
-    this.sub = this.http.delete(
+    return this.http.delete(
       `databaseURL/reports/${id}/.json`
-    ).subscribe()
+    )
   }
 
   isAuthorIn(id): Observable<boolean> {

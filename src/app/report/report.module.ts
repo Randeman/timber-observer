@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReportRoutingModule } from './report-routing.module';
 import { ReportComponent } from './report/report.component';
 import { EditReportComponent } from './edit-report/edit-report.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [ReportComponent, EditReportComponent],
@@ -15,6 +16,7 @@ import { EditReportComponent } from './edit-report/edit-report.component';
     FormsModule,
     HttpClientModule,
     MapModule,
+    SharedModule,
     ReportRoutingModule
   ], 
   providers: [NgbActiveModal],

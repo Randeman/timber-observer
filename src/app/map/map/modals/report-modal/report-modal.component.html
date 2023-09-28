@@ -1,4 +1,4 @@
-
+<app-loader *ngIf="isLoading"></app-loader>
 <div class="modal-header">
   <h4 class="modal-title">СИГНАЛ ЗА НАРУШЕНИЕ - {{violationOptions[data[1].violation] | uppercase}}</h4>
   <button type="button" class="close" aria-label="Close" (click)="passBack()">
@@ -49,7 +49,7 @@
   <ng-container *ngIf="isLoggedIn">
     <div class="access" *ngIf="isAuthor">
       <button (click)="onEdit(data)">Edit</button>
-      <button (click)="onDelete(data[0])">Delete</button>
+      <button (click)="onDelete(data)">Delete</button>
     </div>
     <!-- <p>{{data | json}}</p> -->
 
