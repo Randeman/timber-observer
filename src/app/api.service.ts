@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeAll, mergeMap, take, toArray, delay } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
@@ -57,7 +57,7 @@ export class ApiService implements OnDestroy {
   }
 
   getInsurance(vehicleNumber: string) {
-    
+
     const body = { dkn: this.cyrlat(vehicleNumber), rama: "", stiker: "", seria: "", date: moment().format("DD/MM/YYYY"), send: "търси" };
     return this.http.post(
       `api-ins`,
@@ -66,26 +66,26 @@ export class ApiService implements OnDestroy {
   }
 
   getPlace(coordinates: string) {
-   
+
     const [lat, lng] = coordinates.split(", ");
- 
+
     return this.http.get(`api-geo?lat=${lat}&lng=${lng}&maxRows=1&username=rutor`)
-                
+
   }
 
   storeReport(reportData) {
-    
+
     return this.http.post(
-        `databaseURL/reports/.json`,
-        { ...reportData });
+      `databaseURL/reports/.json`,
+      { ...reportData });
 
   }
 
   editReport(id, reportData) {
-    
+
     return this.http.put(
-        `databaseURL/reports/${id}/.json`,
-        { ...reportData });
+      `databaseURL/reports/${id}/.json`,
+      { ...reportData });
 
   }
 
@@ -106,32 +106,19 @@ export class ApiService implements OnDestroy {
     )
   }
 
-  isAuthorIn(id): Observable<boolean> {
+  isAuthorIn(id): Observable<any> {
     return new Observable((o) => {
       try {
-       const user = JSON.parse(sessionStorage.getItem('user'));
-       this.getReport(id).subscribe((data) => 
-       {
-        this.reportData = data;
-      }
-       );
-       if (user.uid === this.reportData?.author) {
-         this.isAuthor = true;
-         o.next(true);
-       } else {
-         this.isAuthor = false;
-         o.next(false);
-       }
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        this.getReport(id).subscribe((data) => {
+          o.next(user.uid === data["author"]);
+        });
       } catch (err) {
         this.errorService.setError(err)
         o.next(false);
-     }
-   });
+      }
+    });
   }
-
-  getIsAuthorIn(){
-    return this.isAuthor;
-}
 
 
   ngOnDestroy(): void {
