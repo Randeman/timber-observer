@@ -22,7 +22,7 @@ export class ApiService implements OnDestroy {
 
 
   private getTickets(): any {
-    return this.http.get(`api-iag/search.cgi`);
+    return this.http.get(`api-iag/search.cgi?session=000&user_id=1&search_by=6&search_text=%20%20%20&lng=bg&digest=xxxn`);
   };
 
   private getFullData(id: string) {

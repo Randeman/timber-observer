@@ -1,142 +1,150 @@
-<div class="profil-panel">
-    <div class="user-info" *ngIf="!isEditable">
-        <div class="info-panel">
-            <h2>Информация за профила</h2>
-            <div class="button-field">
-                <button type="button" (click)="changeEditMode()">
-                    Промени
-                </button>
-            </div>
-            <div class="input-field">
-                <input type="text" name="firstName" placeholder="First Name" value="{{userData?.firstName}}" disabled />
-            </div>
-            <div class="input-field">
-                <input type="text" name="lastName" placeholder="Last Name" value="{{userData?.lastName}}" disabled />
-            </div>
-            <div class="input-field">
-                <input type="text" name="phone" placeholder="+359..." value="{{userData?.phone}}" disabled />
-            </div>
-            <div class="input-field">
-                <input type="email" name="email" placeholder="Email" value="{{userData?.email}}" disabled />
-            </div>
-        </div>
-        <div class="trucks">
-            <h3>Наблюдавани камиони и ремаркета</h3>
-            <div class="input-field">
-                <input type="text" name="truck" placeholder="Reg. No" value="{{trucks[0]}}" disabled />
-            </div>
-            <div class="input-field">
-                <input type="text" name="truck" placeholder="Reg.No" value="{{trucks[1]}}" disabled />
-            </div>
-            <div class="input-field">
-                <input type="text" name="truck" placeholder="Reg.No" value="{{trucks[2]}}" disabled />
-            </div>
-            <div class="input-field">
-                <input type="text" name="truck" placeholder="Reg.No" value="{{trucks[3]}}" disabled />
-            </div>
-        </div>
-    </div>
-    <form #form="ngForm" (ngSubmit)="onEditProfile(form)" class="edit-form" *ngIf="isEditable">
-        <div class="user-info">
+<div class="profile-panel">
+    <app-loader *ngIf="isProfileLoading"></app-loader>
+    <div class="profile-content" *ngIf="!isProfileLoading">
+        <div class="user-info" *ngIf="!isEditable">
             <div class="info-panel">
                 <h2>Информация за профила</h2>
                 <div class="button-field">
-                    <button type="submit" [style]="{ backgroundColor: form.invalid ? 'grey' : 'green' }"
-                        [disabled]="form.invalid">
-                        Запази
-                    </button>
                     <button type="button" (click)="changeEditMode()">
-                        Откажи
+                        Промени
                     </button>
                 </div>
                 <div class="input-field">
-                    <input type="text" name="firstName" placeholder="First Name" ngModel={{userData?.firstName}}
-                        #inputFirstName="ngModel" required />
+                    <input type="text" name="firstName" placeholder="First Name" value="{{userData?.firstName}}"
+                        disabled />
                 </div>
-                <ng-container *ngIf="inputFirstName?.touched">
-                    <p class="error" *ngIf="inputFirstName?.errors?.['required']">
-                        First Name is required!
-                    </p>
-                </ng-container>
                 <div class="input-field">
-                    <input type="text" name="lastName" placeholder="Last Name" ngModel="{{userData?.lastName}}"
-                        #inputLastName="ngModel" required />
+                    <input type="text" name="lastName" placeholder="Last Name" value="{{userData?.lastName}}"
+                        disabled />
                 </div>
-                <ng-container *ngIf="inputLastName.touched">
-                    <p class="error" *ngIf="inputLastName.errors?.['required']">
-                        Last Name is required!
-                    </p>
-                </ng-container>
                 <div class="input-field">
-                    <input type="text" name="phone" placeholder="+359..." ngModel="{{userData?.phone}}"
-                        #inputPhone="ngModel" required />
+                    <input type="text" name="phone" placeholder="+359..." value="{{userData?.phone}}" disabled />
                 </div>
-                <ng-container *ngIf="inputPhone?.touched">
-                    <p class="error" *ngIf="inputPhone?.errors?.['required']">
-                        Phone is required!
-                    </p>
-                </ng-container>
                 <div class="input-field">
                     <input type="email" name="email" placeholder="Email" value="{{userData?.email}}" disabled />
                 </div>
-                
             </div>
             <div class="trucks">
                 <h3>Наблюдавани камиони и ремаркета</h3>
                 <div class="input-field">
-                    <input type="text" name="truck1" placeholder="Reg. No" ngModel="{{trucks[0]}}" />
+                    <input type="text" name="truck" placeholder="Reg. No" value="{{trucks[0]}}" disabled />
                 </div>
                 <div class="input-field">
-                    <input type="text" name="truck2" placeholder="Reg.No" ngModel="{{trucks[1]}}" />
+                    <input type="text" name="truck" placeholder="Reg.No" value="{{trucks[1]}}" disabled />
                 </div>
                 <div class="input-field">
-                    <input type="text" name="truck3" placeholder="Reg.No" ngModel="{{trucks[2]}}" />
+                    <input type="text" name="truck" placeholder="Reg.No" value="{{trucks[2]}}" disabled />
                 </div>
                 <div class="input-field">
-                    <input type="text" name="truck4" placeholder="Reg.No" ngModel="{{trucks[3]}}" />
+                    <input type="text" name="truck" placeholder="Reg.No" value="{{trucks[3]}}" disabled />
                 </div>
             </div>
         </div>
-    </form>
-    <form class="search-form" *ngIf="!isEditable" #formSearch="ngForm" (ngSubmit)="onSearch(formSearch)">
-        <div class="search-field">
-            <h2>Търсене</h2>
-            <p>Последните регистрирани билети (максимум 25 броя)</p>
-            <div class="input-field">
-                <input type="text" name="truck" ngModel placeholder="Номер на камион или ремарке" />
-            </div>
-            <div class="input-field">
-                <input type="text" name="sender" ngModel placeholder="Издател" />
-            </div>
-            <div class="input-field">
-                <input type="text" name="destination" ngModel placeholder="Място на доставка" />
-            </div>
-            <div class="button-field">
-                <button type="submit">
-                    Търси
-                </button>
-            </div>
-        </div>
-    </form>
-    <div class="results" *ngIf="!isEditable">
-        <ng-container *ngIf="!!tickets?.length">
-            <div class="result" *ngFor="let ticket of tickets">
-                <div class="img-container" (click)="onOpenTicket(ticket)">
-                    <img *ngIf="!!ticket.images" src={{ticket.images?.[0].image}} alt="picture">
-                    <img src="../../../assets/images/no-image.jpg" alt="picture" *ngIf="!ticket.images">
-                </div>
-                <div class="ticket-content">
-                    <p><span class="bolder">Билет № {{ticket.time | slice: 0:-15}}...</span></p>
-                    <p><span class="bolder">Превозно средство:</span> {{ticket.vehicle_plates_number}}<span *ngIf="!!ticket.trailer_plates_number">, ремарке
-                            {{ticket.trailer_plates_number}}</span></p>
-                    <p><span class="bolder">Издаден от:</span> {{ticket.issued}}, {{ticket.podelenie}}</p>
-                    <p><span class="bolder">Място на доставка:</span> {{ticket.destination}}</p>
-                </div>
-            </div>
-        </ng-container>
-        <ng-container *ngIf="!tickets?.length">
-            <h5>Няма намерени!!!</h5>
-        </ng-container>
+        <form #form="ngForm" (ngSubmit)="onEditProfile(form)" class="edit-form" *ngIf="isEditable">
+            <div class="user-info">
+                <div class="info-panel">
+                    <h2>Информация за профила</h2>
+                    <div class="button-field">
+                        <button type="submit" [style]="{ backgroundColor: form.invalid ? 'grey' : 'green' }"
+                            [disabled]="form.invalid">
+                            Запази
+                        </button>
+                        <button type="button" (click)="changeEditMode()">
+                            Откажи
+                        </button>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="firstName" placeholder="First Name" ngModel={{userData?.firstName}}
+                            #inputFirstName="ngModel" required />
+                    </div>
+                    <ng-container *ngIf="inputFirstName?.touched">
+                        <p class="error" *ngIf="inputFirstName?.errors?.['required']">
+                            First Name is required!
+                        </p>
+                    </ng-container>
+                    <div class="input-field">
+                        <input type="text" name="lastName" placeholder="Last Name" ngModel="{{userData?.lastName}}"
+                            #inputLastName="ngModel" required />
+                    </div>
+                    <ng-container *ngIf="inputLastName.touched">
+                        <p class="error" *ngIf="inputLastName.errors?.['required']">
+                            Last Name is required!
+                        </p>
+                    </ng-container>
+                    <div class="input-field">
+                        <input type="text" name="phone" placeholder="+359..." ngModel="{{userData?.phone}}"
+                            #inputPhone="ngModel" required />
+                    </div>
+                    <ng-container *ngIf="inputPhone?.touched">
+                        <p class="error" *ngIf="inputPhone?.errors?.['required']">
+                            Phone is required!
+                        </p>
+                    </ng-container>
+                    <div class="input-field">
+                        <input type="email" name="email" placeholder="Email" value="{{userData?.email}}" disabled />
+                    </div>
 
+                </div>
+                <div class="trucks">
+                    <h3>Наблюдавани камиони и ремаркета</h3>
+                    <div class="input-field">
+                        <input type="text" name="truck1" placeholder="Reg. No" ngModel="{{trucks[0]}}" />
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="truck2" placeholder="Reg.No" ngModel="{{trucks[1]}}" />
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="truck3" placeholder="Reg.No" ngModel="{{trucks[2]}}" />
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="truck4" placeholder="Reg.No" ngModel="{{trucks[3]}}" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form class="search-form" *ngIf="!isEditable" #formSearch="ngForm" (ngSubmit)="onSearch(formSearch)">
+            <div class="search-field">
+                <h2>Търсене</h2>
+                <p>Последните регистрирани билети (максимум 30 броя)</p>
+                <div class="input-field">
+                    <input type="text" name="truck" ngModel placeholder="Номер на камион или ремарке" />
+                </div>
+                <div class="input-field">
+                    <input type="text" name="sender" ngModel placeholder="Издател" />
+                </div>
+                <div class="input-field">
+                    <input type="text" name="destination" ngModel placeholder="Място на доставка" />
+                </div>
+                <div class="button-field">
+                    <button type="submit">
+                        Търси
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="results" *ngIf="!isEditable">
+            <ng-container *ngIf="!isResultsLoading">
+                <ng-container *ngIf="!!tickets?.length">
+                    <div class="result" *ngFor="let ticket of tickets">
+                        <div class="img-container" (click)="onOpenTicket(ticket)">
+                            <img *ngIf="!!ticket.images" src={{ticket.images?.[0].image}} alt="picture">
+                            <img src="../../../assets/images/no-image.jpg" alt="picture" *ngIf="!ticket.images">
+                        </div>
+                        <div class="ticket-content">
+                            <p><span class="bolder">Билет № {{ticket.time | slice: 0:-15}}...</span></p>
+                            <p><span class="bolder">Превозно средство:</span> {{ticket.vehicle_plates_number}}<span
+                                    *ngIf="!!ticket.trailer_plates_number">, ремарке
+                                    {{ticket.trailer_plates_number}}</span></p>
+                            <p><span class="bolder">Издаден от:</span> {{ticket.issued}}, {{ticket.podelenie}}</p>
+                            <p><span class="bolder">Място на доставка:</span> {{ticket.destination}}</p>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="!isResultsLoading">
+                <h5 *ngIf="!tickets?.length">Няма намерени!!!</h5>
+            </ng-container>
+            <app-loader *ngIf="isResultsLoading"></app-loader>
+        </div>
     </div>
 </div>

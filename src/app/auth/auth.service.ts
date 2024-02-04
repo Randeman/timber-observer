@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from './User';
 import { ErrorService } from '../core/error/error.service';
+import { first, map, delay } from 'rxjs';
 
 
 @Injectable({
@@ -108,19 +108,17 @@ export class AuthService {
 
   editUserProfile(firstName, lastName, phone, trucks) {
 
-    this.afAuth.user
-      .subscribe({
-        next: (user) => {
-        this.setUserData(user);
-        this.storeUserData(user, firstName, lastName, phone, trucks);
-        user.updateProfile({ displayName: firstName.concat(" ", lastName) })
-        .then(() => { this.setUser() })
-        },
-        error: (err) => this.errorService.setError(err)
-        
-      })
-
-
+    return this.afAuth.user
+      .pipe(
+        first(),
+        map((user) => {
+          this.setUserData(user);
+          this.storeUserData(user, firstName, lastName, phone, trucks);
+          user.updateProfile({ displayName: firstName.concat(" ", lastName) })
+          .then(() => { this.setUser() })
+        }),
+        delay(1000)
+      )
   }
 
   setUser() {
